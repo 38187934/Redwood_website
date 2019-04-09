@@ -35,7 +35,7 @@
 
 
           <div class="columns is-desktop is-mobile">
-            <div class="column is-3 is-offset-2-desktop has-text-right">
+            <div class="column is-3 is-offset-2-desktop is-full-mobile has-text-right">
               <div class="columns">
                 <div class="column is-3 is-3-mobile">
                   <img src="@/assets/logo.png" style="max-height:3.8rem;">
@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <div class="column is-7">
+            <div class="column is-7 is-full-mobile">
 
               <p>Copyright &copy;2019 湖南宁乡科义生物有限公司 版权所有 备案号:湘ICP备xxxxxxxx号</p>
               <p>公司地址：湖南省宁乡某某区某某街道多少号</p>

@@ -34,31 +34,31 @@
       <!--菜单主体-->
       <div id="navBar" class="navbar-menu" v-bind:class="{'is-active':isActive}">
         <div class="navbar-start">
-          <a class="navbar-item active">
+          <a class="navbar-item" :class="nIndex==0?'active':''" @click="jumpPage('/')">
             首页
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==1?'active':''" @click="jumpPage('/about')">
             关于科义
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==2?'active':''" @click="jumpPage('/product')">
             产品中心
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==3?'active':''" @click="jumpPage('/techlecture')">
             技术讲座
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==4?'active':''">
             行业知识
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==5?'active':''">
             新闻动态
           </a>
 
-          <a class="navbar-item">
+          <a class="navbar-item" :class="nIndex==6?'active':''">
             联系我们
           </a>
 
@@ -76,6 +76,24 @@
     data() {
       return {
         isActive: false
+      }
+    },
+    props:{
+      nIndex:{
+        type:Number,
+        required:true
+      }
+    },
+    methods:{
+      /**
+       * 路由跳转
+       * @param path
+       */
+      jumpPage(path){
+        //根据path进行路由跳转，实现页面跳转。
+        this.$router.push({
+          path:path
+        })
       }
     }
   }
@@ -104,28 +122,32 @@
     }
 
 
+    /*头部菜单内容样式*/
     .navbar .navbar-start .navbar-item
     {
       height:100%;
       margin-right:0;
-      padding-top:1rem;
-      padding-bottom:1rem;
+      /*padding-top:1rem;*/
+      /*padding-bottom:1rem;*/
       /*width:6rem;*/
       /*text-align: center;*/
       padding-left:1.7rem;
       padding-right:1.7rem;
     }
 
+    /*头部Logo区域样式*/
     .navbar .navbar-brand .navbar-item
     {
-      padding-top:2rem;
-      padding-bottom:2rem;
+      padding-top:1rem;
+      padding-bottom:1rem;
     }
 
   }
 
+  /*手机端头部样式*/
   @media screen and (max-width:400px)
   {
+    /*手机端大标题样式*/
     .htitle
     {
       font-size:1.5rem;
@@ -134,42 +156,45 @@
       margin-bottom:-0.2rem;
       padding-bottom:0;
     }
+    /*手机端小标题样式*/
     .hsubtitle
     {
       font-weight:500;
     }
   }
 
-  .navbar .navbar-item{
-
-  }
+  /*菜单内容居中*/
   .navbar .navbar-start
   {
     text-align:center;
   }
 
 
-
+  /*去除框架内自带边框圆角*/
   .navbar.is-spaced a.navbar-item {
     border-radius: 0px;
   }
 
+
+  /*hover样式*/
   .navbar .navbar-item:hover
   {
     background: transparent;
     color:black;
   }
 
+  /*选中菜单内容hover样式*/
   .navbar  a.navbar-item.active:hover
   {
-    background: rgba(22, 155, 213, 1);
-    color:white;
+    color:#007ac7;
+    border-bottom:3px solid #007ac7;
   }
 
+  /*选中样式*/
   .active
   {
-    background: rgba(22, 155, 213, 1);
-    color:white;
+    color:#007ac7;
+    border-bottom:3px solid #007ac7;
   }
 
 </style>

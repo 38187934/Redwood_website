@@ -8,7 +8,7 @@
       <div class="columns is-desktop">
         <div class="column is-full">
           <!--导航栏-->
-          <Header></Header>
+          <Header :n-index="0"></Header>
         </div>
 
       </div>
