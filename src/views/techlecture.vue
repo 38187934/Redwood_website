@@ -10,7 +10,8 @@
       </div>
     </div>
 
-    <div>
+    <!--手机端隐藏此div-->
+    <div class="is-hidden-mobile">
       <img src="@/assets/about_banner.jpg" style="width:100%;" alt="">
     </div>
 
@@ -86,90 +87,116 @@
 
 
             <div class="columns is-multiline">
-              <div class="column is-4">
 
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
+              <div class="column is-12">
+
+                <div class="box">
+
+                  <div class="columns is-multiline">
+                    <div class="column is-5-desktop is-12-mobile">
+                      <img src="http://via.placeholder.com/350x150?text=350X150" alt="">
+                    </div>
+                    <div class="column is-7-desktop is-12-mobile">
+                      <div style="margin-bottom: 4.5rem;">
+                        <h2>鲤鱼养殖技术 鲤鱼繁育技术 养殖的注意事项讲座鲫鱼养殖技术鱼养殖管理_鲫鱼养殖技术大全</h2>
+                      </div>
+
+                      <div class="columns is-multiline is-mobile">
+                        <div class="column has-text-left">
+                          <p>来源:yangzhijiyu</p>
+                        </div>
+                        <div class="column has-text-right">
+                          <p>时间:2019-03-30</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
-                  </div>
+
                 </div>
 
               </div>
 
 
-              <div class="column is-4">
+              <div class="column is-12">
 
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                  </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
-                  </div>
-                </div>
+                <div class="box">
 
-              </div>
-              <div class="column is-4">
+                  <div class="columns is-multiline">
+                    <div class="column is-5-desktop is-12-mobile">
+                      <img src="http://via.placeholder.com/350x150?text=350X150" alt="">
+                    </div>
+                    <div class="column is-7-desktop is-12-mobile">
+                      <div style="margin-bottom: 4.5rem;">
+                        <h2>鲤鱼养殖技术 鲤鱼繁育技术 养殖的注意事项讲座鲫鱼养殖技术鱼养殖管理_鲫鱼养殖技术大全</h2>
+                      </div>
 
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
+                      <div class="columns is-multiline is-mobile">
+                        <div class="column has-text-left">
+                          <p>来源:yangzhijiyu</p>
+                        </div>
+                        <div class="column has-text-right">
+                          <p>时间:2019-03-30</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
-                  </div>
-                </div>
 
-              </div>
-              <div class="column is-4">
-
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                  </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
-                  </div>
-                </div>
-
-              </div>
-              <div class="column is-4">
-
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
-                  </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
-                  </div>
                 </div>
 
               </div>
 
-              <div class="column is-4">
+              <div class="column is-12">
 
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                    </figure>
+                <div class="box">
+
+                  <div class="columns is-multiline">
+                    <div class="column is-5-desktop is-12-mobile">
+                      <img src="http://via.placeholder.com/350x150?text=350X150" alt="">
+                    </div>
+                    <div class="column is-7-desktop is-12-mobile">
+                      <div style="margin-bottom: 4.5rem;">
+                        <h2>鲤鱼养殖技术 鲤鱼繁育技术 养殖的注意事项讲座鲫鱼养殖技术鱼养殖管理_鲫鱼养殖技术大全</h2>
+                      </div>
+
+                      <div class="columns is-multiline is-mobile">
+                        <div class="column has-text-left">
+                          <p>来源:yangzhijiyu</p>
+                        </div>
+                        <div class="column has-text-right">
+                          <p>时间:2019-03-30</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="card-content">
-                    <h2 class="title">产品名称</h2>
+
+                </div>
+
+              </div>
+
+              <div class="column is-12">
+
+                <div class="box">
+
+                  <div class="columns is-multiline">
+                    <div class="column is-5-desktop is-12-mobile">
+                      <img src="http://via.placeholder.com/350x150?text=350X150" alt="">
+                    </div>
+                    <div class="column is-7-desktop is-12-mobile">
+                      <div style="margin-bottom: 4.5rem;">
+                        <h2>鲤鱼养殖技术 鲤鱼繁育技术 养殖的注意事项讲座鲫鱼养殖技术鱼养殖管理_鲫鱼养殖技术大全</h2>
+                      </div>
+
+                      <div class="columns is-multiline is-mobile">
+                        <div class="column has-text-left">
+                          <p>来源:yangzhijiyu</p>
+                        </div>
+                        <div class="column has-text-right">
+                          <p>时间:2019-03-30</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+
                 </div>
 
               </div>
@@ -245,24 +272,28 @@
   }
 
   .infoPanel {
-    margin-top:1rem;
+    margin-top: 1rem;
   }
 
   .infoPanel
-
-  .infoPanel .column
-  {
+  .infoPanel .column {
     margin-bottom: 0;
   }
 
-  .rightPanel
-  {
-    margin-bottom:3rem;
+  .rightPanel {
+    margin-bottom: 3rem;
   }
 
-  .card-content .title
-  {
-    font-size:1.2rem;
+  .card-content .title {
+    font-size: 1.2rem;
     font-weight: normal;
+  }
+
+  .rightPanel .box {
+    cursor: pointer;
+  }
+
+  .rightPanel .box:hover {
+    box-shadow: 5px 5px 2.5px #ddd;;
   }
 </style>

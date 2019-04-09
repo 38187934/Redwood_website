@@ -9,7 +9,8 @@
       </div>
     </div>
 
-    <div>
+    <!--手机端隐藏此div-->
+    <div class="is-hidden-mobile">
       <img src="@/assets/about_banner.jpg" style="width:100%;" alt="">
     </div>
 
@@ -31,7 +32,7 @@
         <div class="column is-3-desktop is-full-mobile menuCol">
           <div class="aboutTab">
             <p>关于科义</p>
-            <p style="font-size:0.9rem">About Us</p>
+            <p style="font-size:0.9rem">ABOUT US</p>
           </div>
 
           <div class="columns">
@@ -162,8 +163,7 @@
 
   }
 
-  .rightPanel
-  {
-    margin-bottom:3rem;
+  .rightPanel {
+    margin-bottom: 3rem;
   }
 </style>

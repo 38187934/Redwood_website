@@ -9,7 +9,8 @@
       </div>
     </div>
 
-    <div>
+    <!--手机端隐藏此div-->
+    <div class="is-hidden-mobile">
       <img src="@/assets/about_banner.jpg" style="width:100%;" alt="">
     </div>
 
@@ -31,7 +32,7 @@
         <div class="column is-3-desktop is-full-mobile menuCol">
           <div class="aboutTab">
             <p>产品中心</p>
-            <p style="font-size:0.9rem">About Us</p>
+            <p style="font-size:0.9rem">PRODUCT CENTER</p>
           </div>
 
           <div class="columns">
@@ -244,24 +245,20 @@
   }
 
   .infoPanel {
-    margin-top:1rem;
+    margin-top: 1rem;
   }
 
   .infoPanel
-
-  .infoPanel .column
-  {
+  .infoPanel .column {
     margin-bottom: 0;
   }
 
-  .rightPanel
-  {
-    margin-bottom:3rem;
+  .rightPanel {
+    margin-bottom: 3rem;
   }
 
-  .card-content .title
-  {
-    font-size:1.2rem;
+  .card-content .title {
+    font-size: 1.2rem;
     font-weight: normal;
   }
 </style>
