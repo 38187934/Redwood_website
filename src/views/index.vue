@@ -48,7 +48,6 @@
         <div class="columns is-desktop is-mobile has-text-centered">
           <div class="column is-full">
             <h1 class="title">实验室</h1>
-            <h2>Laboratory</h2>
           </div>
         </div>
 

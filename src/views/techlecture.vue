@@ -93,10 +93,10 @@
                 <div class="box">
 
                   <div class="columns is-multiline">
-                    <div class="column is-5-desktop is-12-mobile">
-                      <img src="http://via.placeholder.com/350x150?text=350X150" alt="">
+                    <div class="column is-4-desktop is-12-mobile">
+                      <img src="http://via.placeholder.com/300x150?text=300X150" alt="">
                     </div>
-                    <div class="column is-7-desktop is-12-mobile">
+                    <div class="column is-8-desktop is-12-mobile">
                       <div style="margin-bottom: 4.5rem;">
                         <h2>鲤鱼养殖技术 鲤鱼繁育技术 养殖的注意事项讲座鲫鱼养殖技术鱼养殖管理_鲫鱼养殖技术大全</h2>
                       </div>
