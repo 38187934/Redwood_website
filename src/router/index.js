@@ -8,6 +8,12 @@ import About from '@/views/about'
 import Product from '@/views/product'
 //技术讲座
 import Techlecture from '@/views/techlecture'
+//行业知识
+import IndustryKnowledge from '@/views/industryknowledge'
+//新闻动态
+import News from '@/views/news';
+//联系我们
+import Contact from '@/views/contact'
 
 Vue.use(Router)
 
@@ -46,6 +52,30 @@ export default new Router({
       component:Techlecture,
       meta:{
         title:"湖南科义生物 - 技术讲座"
+      }
+    },
+    {
+      path: '/industryknowledge',
+      name: 'IndustryKnowledge',
+      component:IndustryKnowledge,
+      meta:{
+        title:"湖南科义生物 - 行业知识"
+      }
+    },
+    {
+      path: '/news',
+      name: 'News',
+      component:News,
+      meta:{
+        title:"湖南科义生物 - 新闻动态"
+      }
+    },
+    {
+      path: '/contact',
+      name: 'Contact',
+      component:Contact,
+      meta:{
+        title:"湖南科义生物 - 联系我们"
       }
     }
   ]

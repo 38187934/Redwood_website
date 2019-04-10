@@ -10,9 +10,14 @@ import 'bulma/css/bulma.min.css'
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import 'swiper/dist/css/swiper.css';
 
+//引入Vue Baidu Map百度地图组件
+import BaiduMap from 'vue-baidu-map';
 
+Vue.use(BaiduMap,{
+  ak:"YFE4rL2suqLEeuEGUA6dzxyUeCmpR3ad"
+})
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(VueAwesomeSwiper);
 
 /**

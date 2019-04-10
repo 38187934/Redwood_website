@@ -50,15 +50,15 @@
             技术讲座
           </a>
 
-          <a class="navbar-item" :class="nIndex==4?'active':''">
+          <a class="navbar-item" :class="nIndex==4?'active':''" @click="jumpPage('/industryknowledge')">
             行业知识
           </a>
 
-          <a class="navbar-item" :class="nIndex==5?'active':''">
+          <a class="navbar-item" :class="nIndex==5?'active':''" @click="jumpPage('/news')">
             新闻动态
           </a>
 
-          <a class="navbar-item" :class="nIndex==6?'active':''">
+          <a class="navbar-item" :class="nIndex==6?'active':''" @click="jumpPage('/contact')">
             联系我们
           </a>
 

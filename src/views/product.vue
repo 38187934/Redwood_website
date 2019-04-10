@@ -144,7 +144,7 @@
                 </div>
 
               </div>
-              <div class="column is-4">
+              <div class="column is-4" @click="showModal=true">
 
                 <div class="card">
                   <div class="card-image">
@@ -190,6 +190,31 @@
       <Footer></Footer>
     </div>
 
+    <!--模态框-->
+    <div class="modal" v-bind:class="{ 'is-active': showModal }">
+      <div class="modal-background" v-on:click="showModal = false"></div>
+      <div class="modal-card">
+        <section class="modal-card-body">
+          <!--关闭按钮-->
+          <div class="has-text-right">
+            <button class="delete has-text-right" aria-label="close" v-on:click="showModal = false"></button>
+          </div>
+
+          <div class="columns is-multiline">
+            <div class="column is-4 has-text-centered">
+              <img style="border:2px solid #0088c7;"  src="http://via.placeholder.com/260x350?text=250X350" alt="">
+            </div>
+            <div class="column is-8 modal_detail">
+              <p class="descText">【主要成分】益母草、当归、川芎、桃仁、炮姜等。</p>
+              <p class="descText">【性 状】本品为黄绿色的粉末；气清香，味甘、微苦。</p>
+              <p class="descText">【功 能】活血祛淤，温经止痛。</p>
+              <p class="descText">【主 治】产后恶露不行，血瘀腹痛。</p>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -200,12 +225,24 @@
 
   export default {
     name: "about",
-    components: {Footer, Header}
+    components: {Footer, Header},
+    data() {
+      return {
+        showModal: false
+      }
+    }
   }
 </script>
 
 <style scoped>
 
+  @media screen and (min-width: 769px)
+  {
+    .modal-card
+    {
+      width:800px;
+    }
+  }
 
   .aboutTab {
     background-color: rgba(0, 122, 199, 1);
@@ -257,8 +294,21 @@
     margin-bottom: 3rem;
   }
 
+  /*
+    产品列表产品名称文字样式
+  */
   .card-content .title {
     font-size: 1.2rem;
     font-weight: normal;
   }
+  /**
+    模态框内产品简介文字样式
+   */
+  .modal_detail .descText
+  {
+    font-size:1.2rem;
+    margin-bottom:0.5rem;
+    color:#0088c7;
+  }
+
 </style>
