@@ -19,7 +19,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页>关于科义 > 企业介绍
+          您现在的位置： 首页>关于科义>{{breadName}}
         </div>
       </div>
 
@@ -35,25 +35,19 @@
             <p style="font-size:0.9rem">ABOUT US</p>
           </div>
 
-          <div class="columns">
+          <div class="columns is-multiline">
             <div class="column is-12">
-              <div class="menuTab active">
+              <div class="menuTab" :class="divInd===0?'active':''" @click="changeTab(0,'企业介绍')">
                 企业介绍
               </div>
             </div>
-          </div>
-
-          <div class="columns">
             <div class="column is-12">
-              <div class="menuTab">
+              <div class="menuTab" :class="divInd===1?'active':''" @click="changeTab(1,'企业文化')">
                 企业文化
               </div>
             </div>
-          </div>
-
-          <div class="columns">
             <div class="column is-12">
-              <div class="menuTab">
+              <div class="menuTab" :class="divInd===2?'active':''" @click="changeTab(2,'企业荣誉')">
                 企业荣誉
               </div>
             </div>
@@ -64,8 +58,9 @@
         <!--右侧DIV-->
         <div class="column is-9-desktop is-full-mobile rightPanel">
 
-          <div class="infoPanel">
-            <h2>企业介绍</h2>
+          <!--企业介绍-->
+          <div class="infoPanel" v-show="divInd===0">
+            <h2 class="title">企业介绍</h2>
             <hr>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
@@ -95,6 +90,43 @@
             </p>
           </div>
 
+          <!--企业文化-->
+          <div class="infoPanel" v-show="divInd===1">
+            <h2 class="title">企业文化</h2>
+            <hr>
+            <div class="columns">
+              <div class="column is-full">
+                <p>此处为企业文化</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!--企业荣誉-->
+          <div class="infoPanel" v-show="divInd===2">
+
+            <h2 class="title">企业荣誉</h2>
+            <hr>
+
+            <div class="columns is-multiline">
+              <div class="column is-half" v-for="n in 4">
+
+                <div class="card">
+                  <div class="card-image">
+                    <figure class="image is-4by3">
+                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                    </figure>
+                  </div>
+                  <div class="card-content">
+                    <h2 class="subtitle">企业荣誉</h2>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
       </div>
@@ -116,7 +148,23 @@
 
   export default {
     name: "about",
-    components: {Footer, Header}
+    components: {Footer, Header},
+    data() {
+      return {
+        //当前板块
+        divInd: 0,
+        breadName:'企业介绍'
+      }
+    },
+    methods:{
+      /**
+       * 切换板块
+       */
+      changeTab(divInd,breadName){
+        this.divInd=divInd;
+        this.breadName=breadName;
+      }
+    }
   }
 </script>
 

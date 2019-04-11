@@ -147,9 +147,20 @@
   import Header from "../components/header";
   import Footer from "../components/footer";
 
+  import CONSTANT from '../assets/constant'
+
   export default {
     name: "industryknowledge",
-    components: {Footer, Header}
+    components: {Footer, Header},
+    mounted(){
+
+    },
+    data(){
+
+    },
+    methods:{
+
+    }
   }
 </script>
 

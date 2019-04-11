@@ -13,6 +13,14 @@ import 'swiper/dist/css/swiper.css';
 //引入Vue Baidu Map百度地图组件
 import BaiduMap from 'vue-baidu-map';
 
+//引入axios
+import axios from 'axios'
+
+//引入vue-axios
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios,axios);
+
 Vue.use(BaiduMap,{
   ak:"YFE4rL2suqLEeuEGUA6dzxyUeCmpR3ad"
 })
