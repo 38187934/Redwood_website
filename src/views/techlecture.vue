@@ -230,7 +230,7 @@
         this.rightInd=1;
       },
       /**
-       * 获取
+       * 模糊查询
        * @param keyword
        */
       getVideoListByKeyword()

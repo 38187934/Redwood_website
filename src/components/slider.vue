@@ -1,22 +1,24 @@
 <template>
-  <swiper :options="swiperOption" ref="mySwiper" class="swiper-wrap">
-    <swiper-slide :key="0">
-      <img src="@/assets/banner/banner_u36.jpg" alt=""/>
-    </swiper-slide>
-    <swiper-slide :key="1">
-      <img src="@/assets/banner/banner_u36.jpg" alt="">
+  <swiper v-if="bannerList.length>1" :options="swiperOption" ref="mySwiper" class="swiper-wrap">
+    <swiper-slide v-for="(item,index) in bannerList" :key="index">
+      <img :src="item.imgUrl" :alt="item.advertisementName"/>
     </swiper-slide>
     <!-- 常见的小圆点 -->
-    <p class="swiper-pagination" :key="0" slot="pagination"></p>
-    <p class="swiper-pagination" :key="1" slot="pagination"></p>
+    <p class="swiper-pagination" :key="index" slot="pagination" v-for="(item,index) in bannerList"></p>
   </swiper>
 </template>
 
 <script>
+  import CONSTANT from '../assets/constant'
+
   export default {
     name: "slider",
+    mounted(){
+      this.getBannerList();
+    },
     data() {
       return {
+        //轮播组件设置
         swiperOption: {
 
           pagination: {
@@ -33,7 +35,29 @@
           },
           spaceBetween: 30,
           loop: true
-        }
+        },
+        //轮播列表
+        bannerList:null
+      }
+    },
+    methods:{
+      /**
+       * 获取轮播图列表
+       */
+      getBannerList()
+      {
+        this.axios.get(CONSTANT.baseURL+"/pc/banner")
+          .then((json)=>{
+            if(json.data.code!==CONSTANT.statusCode.SUCCESS)
+            {
+              CONSTANT.failedAlert('提示',json.data.msg);
+              return false;
+            }
+            else
+            {
+              this.bannerList=json.data.banners;
+            }
+          })
       }
     }
   }

@@ -20,7 +20,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页 > 行业知识 > 水产系列
+          您现在的位置： 首页 > 行业知识 > {{breadName}}
         </div>
       </div>
 
@@ -37,27 +37,14 @@
           </div>
 
           <div class="columns">
-            <div class="column is-12">
-              <div class="menuTab active">
-                水产系列
-              </div>
-            </div>
-          </div>
 
-          <div class="columns">
             <div class="column is-12">
-              <div class="menuTab">
-                化药系列
+              <div class="menuTab" v-for="item in typeList" :class="item.id===divInd?'active':''"
+                   @click="changeTab(item.id,item.name)">
+                {{item.name}}
               </div>
             </div>
-          </div>
 
-          <div class="columns">
-            <div class="column is-12">
-              <div class="menuTab">
-                针剂系列
-              </div>
-            </div>
           </div>
 
 
@@ -65,19 +52,20 @@
         <!--右侧DIV-->
         <div class="column is-9-desktop is-full-mobile rightPanel">
 
-          <div class="infoPanel">
+          <!--行业知识列表div-->
+          <div class="infoPanel" v-show="rightInd===0">
             <div class="columns">
               <div class="column">
-                <h2 class="title">水产系列</h2>
+                <h2 class="title">{{breadName}}</h2>
               </div>
               <div class="column">
 
                 <div class="columns has-text-right is-desktop is-mobile">
                   <div class="column is-6-desktop is-9-mobile is-offset-4-desktop">
-                    <input class="input is-rounded" type="text" placeholder="请输入产品名称">
+                    <input class="input is-rounded" type="text" placeholder="请输入产品名称" v-model="keyword">
                   </div>
                   <div class="column is-2-desktop is-3-mobile">
-                    <a class="button is-info is-rounded">搜索</a>
+                    <a class="button is-info is-rounded" @click="getKnowledgeListByKeyword()">搜索</a>
                   </div>
                 </div>
               </div>
@@ -88,12 +76,12 @@
 
             <div class="columns is-multiline is-desktop is-mobile">
 
-              <div class="column k-list is-12" v-for="n in 10">
+              <div class="column k-list is-12" v-for="item in industryPage.records" @click="getDetail(item)">
                 <div class="columns">
                   <div class="column has-text-left">
-                    <p>喜讯：增值税16%降至13%，10%降至9%，6%不变</p>
+                    <p>{{item.summary}}</p>
                   </div>
-                  <div class="column has-text-right">2019-04-10</div>
+                  <div class="column has-text-right">{{formatDate(item.updateTime)}}</div>
                 </div>
               </div>
 
@@ -122,6 +110,34 @@
 
           </div>
 
+          <!--行业知识详情div-->
+          <div class="infoPanel" v-show="rightInd===1">
+            <div class="columns is-multiline">
+              <div class="column is-full">
+                <h2 class="title">知识详情</h2>
+                <div class="knowledgeTitle">
+                  <div class="columns is-multiline is-desktop is-mobile">
+                    <div class="column is-half-desktop is-full-mobile has-text-left">
+                      <h3 class="subtitle">{{knowledgeDetail.summary}}</h3>
+                    </div>
+                    <div class="column is-half-desktop is-full-mobile has-text-right">
+                      <h3 class="subtitle">{{formatDate(knowledgeDetail.updateTime)}}</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+              </div>
+              <div class="column is-full">
+
+
+                  <div v-html="knowledgeDetail.description"></div>
+
+
+              </div>
+            </div>
+          </div>
+
 
         </div>
 
@@ -138,9 +154,6 @@
   </div>
 
 
-
-
-
 </template>
 
 <script>
@@ -152,14 +165,93 @@
   export default {
     name: "industryknowledge",
     components: {Footer, Header},
-    mounted(){
-
+    mounted() {
+      this.getIndustryknowledgeTypes();
     },
-    data(){
-
+    data() {
+      return {
+        //行业知识类型列表
+        typeList: null,
+        //面包屑名称
+        breadName: null,
+        //当前类型编号
+        divInd: null,
+        //行业知识列表
+        industryPage: {
+          records: []
+        },
+        rightInd: 0,
+        //行业知识详情
+        knowledgeDetail: {},
+        keyword:null
+      }
     },
-    methods:{
-
+    methods: {
+      /**
+       * 获取行业知识类型列表
+       */
+      getIndustryknowledgeTypes() {
+        this.axios.get(CONSTANT.baseURL + "/pc/category?id=2")
+          .then((json) => {
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            } else {
+              this.typeList = json.data.list;
+              this.breadName = json.data.list[0].name;
+              this.divInd = json.data.list[0].id;
+              this.getIndustryknowledgeList(json.data.list[0].id);
+            }
+          })
+      },
+      /**
+       * 根据行业知识类型获取行业知识列表
+       * @param categoryid
+       */
+      getIndustryknowledgeList(categoryid) {
+        this.axios.get(CONSTANT.baseURL + "/pc/professional/knowledge?categoryId=" + categoryid)
+          .then((json) => {
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            } else {
+              this.industryPage = json.data.page;
+            }
+          })
+      },
+      //时间戳转yyyy-MM-dd
+      formatDate(timestamp) {
+        return CONSTANT.formatDate(timestamp, 'yyyy-MM-dd')
+      },
+      //切换板块
+      changeTab(id, name) {
+        this.divInd = id;
+        this.breadName = name;
+        this.getIndustryknowledgeList(id);
+        this.rightInd = 0;
+      },
+      //获取行业知识详情
+      getDetail(obj)
+      {
+        this.knowledgeDetail=obj;
+        this.rightInd=1;
+      },
+      /**
+       * 模糊查询搜索
+       * @param keyword
+       */
+      getKnowledgeListByKeyword()
+      {
+        this.axios.get(CONSTANT.baseURL + "/pc/professional/knowledge?categoryId=" + this.divInd +"&name="+ this.keyword)
+          .then((json) => {
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            } else {
+              this.industryPage = json.data.page;
+            }
+          })
+      }
     }
   }
 </script>
@@ -217,10 +309,23 @@
     margin-bottom: 3rem;
   }
 
-  .k-list{
+  .k-list {
     border-bottom: 2px solid #f5f5f5;
+    cursor: pointer;
   }
 
+  h3.subtitle
+  {
+    font-size: 1rem;
+  }
+
+  @media screen and (min-width: 769px)
+  {
+    .knowledgeTitle
+    {
+      margin-top:2rem;
+    }
+  }
 
 
 </style>
