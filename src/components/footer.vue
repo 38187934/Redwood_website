@@ -5,32 +5,8 @@
         <div class="container">
 
           <div class="columns is-multiline is-desktop is-mobile">
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
-            </div>
-            <div class="column is-4-mobile">
-              <a class="button is-white">友情链接</a>
+            <div class="column is-1-desktop is-4-mobile" v-for="item in favoriteLinkList">
+              <a class="button is-white" :href="item.url">{{item.name}}</a>
             </div>
           </div>
 
@@ -73,8 +49,36 @@
 </template>
 
 <script>
+  import CONSTANT from '../assets/constant'
   export default {
-    name: "footer"
+    name: "footer",
+    data(){
+      return{
+        favoriteLinkList:null
+      }
+    },
+    mounted() {
+      this.getFavoriteLinkList();
+    },
+    methods:{
+      /**
+       * 获取友情链接列表
+       */
+      getFavoriteLinkList()
+      {
+        this.axios.get(CONSTANT.baseURL+"/pc/favorite/links")
+          .then((json)=>{
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            }
+            else
+            {
+              this.favoriteLinkList=json.data.links
+            }
+          })
+      }
+    }
   }
 </script>
 

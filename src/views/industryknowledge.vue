@@ -87,23 +87,18 @@
 
             </div>
 
+            <!--分页-->
             <div class="columns ">
-              <div class="column">
-                <nav class="pagination" role="navigation" aria-label="pagination">
-                  <ul class="pagination-list has-text-centered">
-                    <li>
-                      <a class="pagination-link">&lt;</a>
-                    </li>
-                    <li v-for="n in 5">
-                      <a class="pagination-link">{{n}}</a>
-                    </li>
-
-                    <li>
-                      <a class="pagination-link">&gt;</a>
-                    </li>
-
-                  </ul>
-                </nav>
+              <div class="column is-full">
+                <pagination
+                  :url-prefix="'/industryknowledge'"
+                  :current-page="industryPage.current"
+                  :prev="'上一页'"
+                  :next="'下一页'"
+                  :displayPage="9"
+                  :lastPage="industryPage.pages"
+                  :url-builder="urlBuilder"
+                ></pagination>
               </div>
             </div>
 
@@ -131,7 +126,7 @@
               <div class="column is-full">
 
 
-                  <div v-html="knowledgeDetail.description"></div>
+                <div v-html="knowledgeDetail.description"></div>
 
 
               </div>
@@ -162,11 +157,49 @@
 
   import CONSTANT from '../assets/constant'
 
+  //引入vue-bulma-pagination分页
+  import Pagination from 'vue-bulma-pagination/src/Pagination'
+
   export default {
     name: "industryknowledge",
-    components: {Footer, Header},
+    components: {Footer, Header, Pagination},
     mounted() {
+
+
+      //页数
+      let current = this.$route.query.page;
+
+      if (current === undefined) {
+        current = 1;
+      }
+
+      this.current = current;
+
+
       this.getIndustryknowledgeTypes();
+
+      //行业知识ID
+      if(this.$route.query.categoryid!==undefined)
+      {
+        let categoryId = parseInt(this.$route.query.categoryid);
+        this.divInd = categoryId;
+        this.getIndustryknowledgeList(categoryId);
+      }
+      else
+      {
+        this.divInd=this.typeList[0].id;
+        this.getIndustryknowledgeList(this.divInd);
+      }
+
+
+      this.keyword = this.$route.query.keyword;
+
+
+
+
+
+
+
     },
     data() {
       return {
@@ -183,7 +216,24 @@
         rightInd: 0,
         //行业知识详情
         knowledgeDetail: {},
-        keyword:null
+        //查询
+        keyword: null,
+        //当前页数
+        current: null
+      }
+    },
+    /**
+     *  监听路由page属性变化
+     */
+    watch: {
+      '$route'(val) {
+        this.current = this.$route.query.page;
+        if (this.$route.query.page === undefined) {
+          this.current = 1;
+        }
+        this.keyword = this.$route.query.keyword;
+        this.getIndustryknowledgeTypes();
+        this.getIndustryknowledgeList(this.divInd);
       }
     },
     methods: {
@@ -198,9 +248,20 @@
               return false;
             } else {
               this.typeList = json.data.list;
-              this.breadName = json.data.list[0].name;
-              this.divInd = json.data.list[0].id;
-              this.getIndustryknowledgeList(json.data.list[0].id);
+              if (this.divInd == null) {
+                this.breadName = json.data.list[0].name;
+                this.divInd = json.data.list[0].id;
+                this.getIndustryknowledgeList(json.data.list[0].id);
+              }
+              else
+              {
+                this.typeList.forEach((obj,i)=>{
+                  if(obj.id===this.divInd)
+                  {
+                    this.breadName=obj.name;
+                  }
+                })
+              }
             }
           })
       },
@@ -209,7 +270,14 @@
        * @param categoryid
        */
       getIndustryknowledgeList(categoryid) {
-        this.axios.get(CONSTANT.baseURL + "/pc/professional/knowledge?categoryId=" + categoryid)
+        let basePath = "/pc/professional/knowledge?categoryId=" + categoryid + "&current=" + this.current;
+
+        //模糊查询判断
+        if (this.keyword !== null && this.keyword !== undefined && this.keyword !== "") {
+          basePath += "&name=" + this.keyword
+        }
+
+        this.axios.get(CONSTANT.baseURL + basePath)
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
               CONSTANT.failedAlert('提示', json.data.msg);
@@ -225,32 +293,45 @@
       },
       //切换板块
       changeTab(id, name) {
-        this.divInd = id;
-        this.breadName = name;
-        this.getIndustryknowledgeList(id);
-        this.rightInd = 0;
+
+        this.rightInd=0;
+        this.divInd=id;
+
+        this.$router.push({
+          path:"/industryknowledge",
+          query:{
+            categoryid:id,
+            page:1,
+          }
+        })
+
       },
       //获取行业知识详情
-      getDetail(obj)
-      {
-        this.knowledgeDetail=obj;
-        this.rightInd=1;
+      getDetail(obj) {
+        this.knowledgeDetail = obj;
+        this.rightInd = 1;
       },
       /**
        * 模糊查询搜索
        * @param keyword
        */
-      getKnowledgeListByKeyword()
-      {
-        this.axios.get(CONSTANT.baseURL + "/pc/professional/knowledge?categoryId=" + this.divInd +"&name="+ this.keyword)
-          .then((json) => {
-            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
-              return false;
-            } else {
-              this.industryPage = json.data.page;
-            }
-          })
+      getKnowledgeListByKeyword() {
+        this.$router.push({
+          path: "/industryknowledge",
+          query: {
+            page: 1,
+            keyword: this.keyword,
+            categoryid: this.divInd
+          }
+        })
+      },
+      /**
+       * 自定义分页组件route参数
+       * @param pageNum
+       */
+      urlBuilder(page) {
+        let keyword = this.keyword;
+        return {query: {...this.$route.query, page}} // Changing page in location query
       }
     }
   }
@@ -314,16 +395,13 @@
     cursor: pointer;
   }
 
-  h3.subtitle
-  {
+  h3.subtitle {
     font-size: 1rem;
   }
 
-  @media screen and (min-width: 769px)
-  {
-    .knowledgeTitle
-    {
-      margin-top:2rem;
+  @media screen and (min-width: 769px) {
+    .knowledgeTitle {
+      margin-top: 2rem;
     }
   }
 

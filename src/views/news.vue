@@ -20,7 +20,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页 > 新闻动态 > 科义新闻
+          您现在的位置： 首页 > 新闻动态 > {{breadName}}
         </div>
       </div>
 
@@ -36,26 +36,10 @@
             <p style="font-size:0.9rem">NEWS</p>
           </div>
 
-          <div class="columns">
-            <div class="column is-12">
-              <div class="menuTab active">
-                科义新闻
-              </div>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-12">
-              <div class="menuTab">
-                行业新闻
-              </div>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-12">
-              <div class="menuTab">
-                针剂系列
+          <div class="columns is-multiline">
+            <div class="column is-12" v-for="item in typeList">
+              <div class="menuTab" :class="item.id===divInd?'active':''" @click="changeTab(item.id,item.name)">
+                {{item.name}}
               </div>
             </div>
           </div>
@@ -65,19 +49,20 @@
         <!--右侧DIV-->
         <div class="column is-9-desktop is-full-mobile rightPanel">
 
-          <div class="infoPanel">
+          <!--新闻列表-->
+          <div class="infoPanel" v-show="rightInd===0">
             <div class="columns">
               <div class="column">
-                <h2 class="title">科义新闻</h2>
+                <h2 class="title">{{breadName}}</h2>
               </div>
               <div class="column">
 
                 <div class="columns has-text-right is-desktop is-mobile">
                   <div class="column is-6-desktop is-9-mobile is-offset-4-desktop">
-                    <input class="input is-rounded" type="text" placeholder="请输入产品名称">
+                    <input class="input is-rounded" type="text" placeholder="" v-model="keyword">
                   </div>
                   <div class="column is-2-desktop is-3-mobile">
-                    <a class="button is-info is-rounded">搜索</a>
+                    <a class="button is-info is-rounded" @click="search()">搜索</a>
                   </div>
                 </div>
               </div>
@@ -88,38 +73,61 @@
 
             <div class="columns is-multiline is-desktop is-mobile">
 
-              <div class="column k-list is-12" v-for="n in 10">
+              <div class="column k-list is-12" v-for="item in newsPage.records" @click="getDetail(item)">
                 <div class="columns">
                   <div class="column has-text-left">
-                    <p>喜讯：增值税16%降至13%，10%降至9%，6%不变</p>
+                    <p>{{item.summary}}</p>
                   </div>
-                  <div class="column has-text-right">2019-04-10</div>
+                  <div class="column has-text-right">{{formatDate(item.updateTime)}}</div>
                 </div>
               </div>
 
             </div>
 
+            <!--分页-->
             <div class="columns ">
-              <div class="column">
-                <nav class="pagination" role="navigation" aria-label="pagination">
-                  <ul class="pagination-list has-text-centered">
-                    <li>
-                      <a class="pagination-link">&lt;</a>
-                    </li>
-                    <li v-for="n in 5">
-                      <a class="pagination-link">{{n}}</a>
-                    </li>
-
-                    <li>
-                      <a class="pagination-link">&gt;</a>
-                    </li>
-
-                  </ul>
-                </nav>
+              <div class="column is-full">
+                <pagination
+                  :url-prefix="'/news'"
+                  :current-page="newsPage.current"
+                  :prev="'上一页'"
+                  :next="'下一页'"
+                  :displayPage="9"
+                  :lastPage="newsPage.pages"
+                  :url-builder="urlBuilder"
+                ></pagination>
               </div>
             </div>
 
 
+          </div>
+
+          <!--新闻详情-->
+          <div class="infoPanel" v-show="rightInd===1">
+            <div class="columns is-multiline">
+              <div class="column is-full">
+                <h2 class="title">新闻详情</h2>
+              </div>
+              <div class="column">
+                <div class="columns">
+                  <div class="column is-half-desktop is-half-mobile has-text-left">
+                    <h2 class="subtitle">{{newsDetail.summary}}</h2>
+                  </div>
+                  <div class="column is-half-desktop is-half-mobile has-text-right">
+                    <h2 class="subtitle">{{formatDate(newsDetail.updateTime)}}</h2>
+                  </div>
+                </div>
+                <hr>
+
+                <div class="columns is-multiline">
+                  <!--新闻详情-->
+                  <div class="column is-full" v-html="newsDetail.description">
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
 
 
@@ -138,18 +146,202 @@
   </div>
 
 
-
-
-
 </template>
 
 <script>
   import Header from "../components/header";
   import Footer from "../components/footer";
+  import CONSTANT from "../assets/constant"
+
+  //引入vue-bulma-pagination分页
+  import Pagination from 'vue-bulma-pagination/src/Pagination'
 
   export default {
-    name: "industryknowledge",
-    components: {Footer, Header}
+    name: "news",
+    components: {Pagination, Footer, Header},
+    data() {
+      return {
+        //新闻类型列表
+        typeList: null,
+        //新闻列表分页
+        newsPage: {
+          records: [],
+          pages: 0
+        },
+        //当前新闻类型名称&面包屑名称
+        breadName: null,
+        //当前新闻类型ID
+        divInd: null,
+        //新闻详情
+        newsDetail: {
+          summary: null,
+          updateTime: null,
+          description: null
+        },
+        //0显示列表1显示详情
+        rightInd: 0,
+        //模糊查询
+        keyword: null,
+        //当前页
+        current:null
+      }
+    },
+    mounted() {
+
+      //页数
+      let current = this.$route.query.page;
+
+      if(current===undefined)
+      {
+        current=1;
+      }
+
+      this.current=current;
+
+
+      this.getNewstypeList();
+
+      //新闻类型ID
+      if(this.$route.query.categoryid!==undefined)
+      {
+        let categoryid=parseInt(this.$route.query.categoryid);
+        this.divInd=categoryid;
+        this.getNewsPage(categoryid);
+      }
+      else
+      {
+        this.divInd=this.typeList[0].id;
+        this.getIndustryknowledgeList(this.divInd);
+      }
+
+
+
+    },
+    /**
+     *  监听路由page属性变化
+     */
+    watch:{
+      '$route'(val){
+        this.current=this.$route.query.page;
+        if(this.$route.query.page===undefined)
+        {
+          this.current=1;
+        }
+        this.getNewstypeList();
+        this.getNewsPage(this.divInd)
+      }
+    },
+    methods: {
+      /**
+       * 获取新闻类型列表
+       */
+      getNewstypeList() {
+        this.axios.get(CONSTANT.baseURL + "/pc/category?id=3")
+          .then((json) => {
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            }
+            else {
+              this.typeList = json.data.list;
+              if (this.divInd == null)
+              {
+                this.breadName = json.data.list[0].name;
+                this.divInd = json.data.list[0].id;
+                this.getNewsPage(json.data.list[0].id);
+              }
+              else
+              {
+                this.typeList.forEach((obj,i)=>{
+                  if(obj.id===this.divInd)
+                  {
+                    this.breadName=obj.name
+                  }
+                })
+              }
+
+
+            }
+          })
+      },
+      /**
+       * 分页获取新闻列表 (通过新闻类型ID或新闻类型ID&新闻名称查询)
+       * @param categoryId
+       * @param name
+       */
+      getNewsPage(categoryId) {
+        let basePath = "/pc/news?categoryId=" + categoryId + "&current="+this.current;
+
+        if (this.keyword !== null && this.keyword !== undefined && this.keyword !== "") {
+          basePath += "&name=" + this.keyword
+        }
+
+        this.axios.get(CONSTANT.baseURL + basePath)
+          .then((json) => {
+            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
+              CONSTANT.failedAlert('提示', json.data.msg);
+              return false;
+            } else {
+              this.newsPage = json.data.page;
+            }
+          })
+      },
+      /**
+       * 时间戳转换
+       * @param time
+       */
+      formatDate(time) {
+        return CONSTANT.formatDate(time, 'yyyy-MM-dd')
+      },
+      /**
+       * 切换板块
+       * @param categoryId
+       * @param name
+       */
+      changeTab(categoryId, name) {
+
+        this.rightInd = 0;
+        this.divInd=categoryId;
+
+        this.$router.push({
+          path:"/news",
+          query:{
+            categoryid:categoryId,
+            page:1,
+          }
+        })
+
+      },
+      /**
+       * 模糊查询，按类别ID以及模糊名称
+       */
+      search() {
+
+        this.$router.push({
+          path: "/news",
+          query: {
+            page: 1,
+            keyword: this.keyword,
+            categoryid: this.divInd
+          }
+        })
+
+      },
+      /**
+       * 展示新闻详情
+       */
+      getDetail(obj) {
+        this.newsDetail = obj;
+        this.rightInd = 1;
+      },
+      /**
+       * 自定义分页组件route参数
+       * @param pageNum
+       */
+      urlBuilder (page) {
+        return { query: { ...this.$route.query, page } } // Changing page in location query
+      }
+    }
   }
 </script>
 
@@ -206,10 +398,10 @@
     margin-bottom: 3rem;
   }
 
-  .k-list{
+  .k-list {
     border-bottom: 2px solid #f5f5f5;
+    cursor: pointer;
   }
-
 
 
 </style>

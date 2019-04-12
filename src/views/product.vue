@@ -19,7 +19,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页>关于科义>{{breadName}}
+          您现在的位置： 首页>产品中心>{{breadName}}
         </div>
       </div>
 
@@ -88,9 +88,21 @@
 
               </div>
 
+            </div>
 
-
-
+            <!--分页-->
+            <div class="columns ">
+              <div class="column is-full">
+                <pagination
+                  :url-prefix="'/industryknowledge'"
+                  :current-page="productPage.current"
+                  :prev="'上一页'"
+                  :next="'下一页'"
+                  :displayPage="9"
+                  :lastPage="productPage.pages"
+                  :url-builder="urlBuilder"
+                ></pagination>
+              </div>
             </div>
 
 
@@ -138,16 +150,18 @@
   import Footer from "../components/footer";
   //引入常量文件
   import CONSTANT from '../assets/constant';
+  //引入vue-bulma-pagination分页
+  import Pagination from 'vue-bulma-pagination/src/Pagination'
 
   export default {
     name: "product",
-    components: {Footer, Header},
+    components: {Footer, Header,Pagination},
     data() {
       return {
         showModal: false,
         breadName:null,
         //产品类型列表
-        typeList:null,
+        typeList:[],
         //产品列表分页
         productPage:{
           records:[]
@@ -162,11 +176,51 @@
           images:null
         },
         //模糊查询产品名称
-        keyword:null
+        keyword:null,
+        //当前页
+        current:null
+      }
+    },
+    /**
+     *  监听路由page属性变化
+     */
+    watch: {
+      '$route'(val) {
+        this.current = this.$route.query.page;
+        if (this.$route.query.page === undefined) {
+          this.current = 1;
+        }
+        this.keyword = this.$route.query.keyword;
+        this.getGoodsCategories();
+        this.getProductPage(this.currentCategoryId);
       }
     },
     mounted() {
+
       this.getGoodsCategories();
+      //页数
+      let current = this.$route.query.page;
+
+      if (current === undefined) {
+        current = 1;
+      }
+
+      this.current = current;
+
+
+
+      if(this.$route.query.categoryid!==undefined)
+      {
+        let categoryId = parseInt(this.$route.query.categoryid);
+        this.currentCategoryId = categoryId;
+        this.getProductPage(categoryId);
+      }
+      else
+      {
+        this.getGoodsCategories();
+      }
+
+      this.keyword = this.$route.query.keyword;
     },
     methods:{
       /**
@@ -183,9 +237,22 @@
             else
             {
               this.typeList=json.data.list;
-              this.currentCategoryId=json.data.list[0].goodsCategoryId;
-              this.breadName=json.data.list[0].goodsCategoryName;
-              this.getProductPage(this.currentCategoryId);
+
+              if(this.currentCategoryId === null)
+              {
+                this.currentCategoryId=json.data.list[0].goodsCategoryId;
+                this.breadName=json.data.list[0].goodsCategoryName;
+                this.getProductPage(this.currentCategoryId);
+              }
+              else
+              {
+                this.typeList.forEach((obj,i)=>{
+                  if(obj.goodsCategoryId===this.currentCategoryId)
+                  {
+                    this.breadName=obj.goodsCategoryName;
+                  }
+                })
+              }
             }
           })
       },
@@ -193,13 +260,15 @@
        * 通过产品类型ID&产品名称分页获取产品列表
        * @param categoryId
        */
-      getProductPage(categoryId,name)
+      getProductPage(categoryId)
       {
-        let basePath = "/pc/goods/search?categoryId="+categoryId;
-        if(name!==undefined)
-        {
-          basePath+="&name="+name
+        let basePath = "/pc/goods/search?categoryId="+categoryId+"&current="+this.current;
+
+        //模糊查询判断
+        if (this.keyword !== null && this.keyword !== undefined && this.keyword !== "") {
+          basePath += "&name=" + this.keyword
         }
+
         this.axios.get(CONSTANT.baseURL+basePath)
           .then((json)=>{
             if(json.data.code!==CONSTANT.statusCode.SUCCESS)
@@ -236,9 +305,14 @@
        */
       changeTab(categoryId,breadName)
       {
-        this.getProductPage(categoryId);
         this.currentCategoryId=categoryId;
-        this.breadName=breadName;
+        this.$router.push({
+          path:"/product",
+          query:{
+            categoryid:categoryId,
+            page:1,
+          }
+        })
 
       },
       //展示商品详情模态框
@@ -252,7 +326,22 @@
        */
       search()
       {
-        this.getProductPage(this.currentCategoryId,this.keyword);
+        this.$router.push({
+          path: "/product",
+          query: {
+            page: 1,
+            keyword: this.keyword,
+            categoryid: this.currentCategoryId
+          }
+        })
+      },
+      /**
+       * 自定义分页组件route参数
+       * @param pageNum
+       */
+      urlBuilder(page) {
+        let keyword = this.keyword;
+        return {query: {...this.$route.query, page}} // Changing page in location query
       }
     }
   }

@@ -69,7 +69,8 @@ export default new Router({
       meta:{
         title:"湖南科义生物 - 新闻动态"
       }
-    },
+    }
+    ,
     {
       path: '/contact',
       name: 'Contact',

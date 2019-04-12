@@ -105,6 +105,22 @@
 
             </div>
 
+            <!--分页-->
+            <div class="columns ">
+              <div class="column is-full">
+                <pagination
+                  :url-prefix="'/techlecture'"
+                  :current-page="videoPage.current"
+                  :prev="'上一页'"
+                  :next="'下一页'"
+                  :displayPage="9"
+                  :lastPage="videoPage.pages"
+                  :url-builder="urlBuilder"
+                ></pagination>
+              </div>
+            </div>
+
+
 
           </div>
 
@@ -149,12 +165,14 @@
 
   //引入常量文件
   import CONSTANT from '../assets/constant';
-  import swal from "sweetalert";
+
+  //引入vue-bulma-pagination分页
+  import Pagination from 'vue-bulma-pagination/src/Pagination'
 
 
   export default {
     name: "techlecture",
-    components: {Footer, Header},
+    components: {Footer, Header,Pagination},
     data() {
       return {
         //类型列表
@@ -175,11 +193,56 @@
           imageUrl:''
         },
         //模糊视频名称
-        keyword:null
+        keyword:null,
+        //当前页
+        current:null
       }
     },
-    mounted() {
+    /**
+     *  监听路由page属性变化
+     */
+    watch: {
+      '$route'(val) {
+        this.current = this.$route.query.page;
+        if (this.$route.query.page === undefined) {
+          this.current = 1;
+        }
+        this.keyword = this.$route.query.keyword;
+        this.getTechlectureTypeList();
+        this.getTechlectureList(this.divInd);
+      }
+    },
+    mounted()
+    {
+
+      //页数
+      let current = this.$route.query.page;
+
+      if (current === undefined) {
+        current = 1;
+      }
+
+      this.current = current;
+
+
       this.getTechlectureTypeList();
+
+
+      if(this.$route.query.categoryid!==undefined)
+      {
+        let categoryId = parseInt(this.$route.query.categoryid);
+        this.divInd = categoryId;
+        this.getTechlectureList(categoryId);
+      }
+      else
+      {
+        this.divInd=this.typeList[0].id;
+        this.getTechlectureList(this.divInd);
+      }
+
+
+      this.keyword = this.$route.query.keyword;
+
     },
     methods: {
       /**
@@ -193,15 +256,35 @@
               return false;
             } else {
               this.typeList = json.data.list;
-              this.breadName = json.data.list[0].name;
-              this.divInd = json.data.list[0].id;
-              this.getTechlectureList(json.data.list[0].id);
+
+              if (this.divInd == null) {
+                this.breadName = json.data.list[0].name;
+                this.divInd = json.data.list[0].id;
+                this.getTechlectureList(json.data.list[0].id);
+              }
+              else
+              {
+                this.typeList.forEach((obj,i)=>{
+                  if(obj.id===this.divInd)
+                  {
+                    this.breadName=obj.name;
+                  }
+                })
+              }
+
+
             }
           })
       },
       //根据技术讲座类型获取技术讲座视频列表
       getTechlectureList(categoryid) {
-        this.axios.get(CONSTANT.baseURL + "/pc/expert/video?categoryId=" + categoryid)
+        let basePath = "/pc/expert/video?categoryId=" + categoryid +"&current=" + this.current;
+
+        if (this.keyword !== null && this.keyword !== undefined && this.keyword !== "") {
+          basePath += "&name=" + this.keyword
+        }
+
+        this.axios.get(CONSTANT.baseURL + basePath)
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
               CONSTANT.failedAlert('提示', json.data.msg);
@@ -213,10 +296,18 @@
       },
       //切换板块
       changeTab(id, name) {
-        this.divInd = id;
-        this.breadName = name;
-        this.getTechlectureList(id);
+
         this.rightInd=0;
+        this.divInd=id;
+
+        this.$router.push({
+          path:"/techlecture",
+          query:{
+            categoryid:id,
+            page:1,
+          }
+        })
+
       },
       //时间戳转yyyy-MM-dd
       formatDate(timestamp) {
@@ -235,15 +326,21 @@
        */
       getVideoListByKeyword()
       {
-        this.axios.get(CONSTANT.baseURL + "/pc/expert/video?categoryId=" + this.divInd +"&name="+ this.keyword)
-          .then((json) => {
-            if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
-              return false;
-            } else {
-              this.videoPage = json.data.page;
-            }
-          })
+        this.$router.push({
+          path: "/techlecture",
+          query: {
+            page: 1,
+            keyword: this.keyword,
+            categoryid: this.divInd
+          }
+        })
+      },
+      /**
+       * 自定义分页组件route参数
+       * @param pageNum
+       */
+      urlBuilder(page) {
+        return {query: {...this.$route.query, page}} // Changing page in location query
       }
     }
   }
