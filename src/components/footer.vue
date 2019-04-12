@@ -6,7 +6,7 @@
 
           <div class="columns is-multiline is-desktop is-mobile">
             <div class="column is-1-desktop is-4-mobile" v-for="item in favoriteLinkList">
-              <a class="button is-white" :href="item.url">{{item.name}}</a>
+              <a class="button is-white" target="_blank" :href="item.url">{{item.name}}</a>
             </div>
           </div>
 
