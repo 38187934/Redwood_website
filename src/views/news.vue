@@ -149,8 +149,8 @@
 </template>
 
 <script>
-  import Header from "../components/header";
-  import Footer from "../components/footer";
+  import Header from "../components/kheader";
+  import Footer from "../components/kfooter";
   import CONSTANT from "../assets/constant"
 
   //引入vue-bulma-pagination分页
@@ -210,8 +210,8 @@
       }
       else
       {
-        this.divInd=this.typeList[0].id;
-        this.getIndustryknowledgeList(this.divInd);
+        //this.divInd=this.typeList[0].id;
+        this.getNewsPage(this.divInd);
       }
 
 
@@ -239,7 +239,8 @@
         this.axios.get(CONSTANT.baseURL + "/pc/category?id=3")
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
+              //CONSTANT.failedAlert('提示', json.data.msg);
+              console.info(json.data.msg);
               return false;
             }
             else {
@@ -279,7 +280,8 @@
         this.axios.get(CONSTANT.baseURL + basePath)
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
+              //CONSTANT.failedAlert('提示', json.data.msg);
+              console.info(json.data.msg);
               return false;
             } else {
               this.newsPage = json.data.page;

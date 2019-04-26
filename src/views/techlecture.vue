@@ -38,7 +38,7 @@
 
           <div class="columns is-multiline">
             <div class="column is-12" v-for="item in typeList">
-              <div class="menuTab" :class="divInd===item.id?'active':''" @click="changeTab(item.id,item.name)">
+              <div class="menuTab" :class="item.id!==null?divInd===item.id?'active':'':''" @click="changeTab(item.id,item.name)">
                 {{item.name}}
               </div>
             </div>
@@ -73,7 +73,7 @@
 
             <div class="columns is-multiline">
 
-              <div class="column is-12" v-for="item in videoPage.records">
+              <div class="column is-12" v-for="item in records">
 
                 <div class="box">
 
@@ -137,7 +137,8 @@
                 </h2>
                 <div class="columns">
                   <div class="column is-full">
-                    <iframe :src="videoDetail.videoUrl" frameborder="0" style="width: 100%;height:30rem;"></iframe>
+<!--                    <iframe :src="videoDetail.videoUrl" frameborder="0" style="width: 100%;height:30rem;"></iframe>-->
+                    <video :src="videoDetail.videoUrl" style="width: 100%;height:30rem;" controls="controls">您的浏览器暂不支持VIDEO控件</video>
                   </div>
                 </div>
               </div>
@@ -160,8 +161,8 @@
 </template>
 
 <script>
-  import Header from "../components/header";
-  import Footer from "../components/footer";
+  import Header from "../components/kheader";
+  import Footer from "../components/kfooter";
 
   //引入常量文件
   import CONSTANT from '../assets/constant';
@@ -176,7 +177,7 @@
     data() {
       return {
         //类型列表
-        typeList: null,
+        typeList: [],
         //当前选中板块名称
         breadName: null,
         //当前选中板块ID
@@ -186,6 +187,7 @@
         videoPage: {
           records:[]
         },
+        records:[],
         //视频详情
         videoDetail: {
           description:'',
@@ -236,7 +238,7 @@
       }
       else
       {
-        this.divInd=this.typeList[0].id;
+        //this.divInd=this.typeList[0].id;
         this.getTechlectureList(this.divInd);
       }
 
@@ -287,10 +289,12 @@
         this.axios.get(CONSTANT.baseURL + basePath)
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
+              //CONSTANT.failedAlert('提示', json.data.msg);
+              console.info(json.data.msg);
               return false;
             } else {
               this.videoPage = json.data.page;
+              this.records=json.data.page.records;
             }
           })
       },

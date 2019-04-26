@@ -143,8 +143,8 @@
 </template>
 
 <script>
-  import Header from "../components/header";
-  import Footer from "../components/footer";
+  import Header from "../components/kheader";
+  import Footer from "../components/kfooter";
 
   export default {
     name: "about",

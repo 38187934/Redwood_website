@@ -146,8 +146,8 @@
 </template>
 
 <script>
-  import Header from "../components/header";
-  import Footer from "../components/footer";
+  import Header from "../components/kheader";
+  import Footer from "../components/kfooter";
   //引入常量文件
   import CONSTANT from '../assets/constant';
   //引入vue-bulma-pagination分页

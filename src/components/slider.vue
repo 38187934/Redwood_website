@@ -37,7 +37,7 @@
           loop: true
         },
         //轮播列表
-        bannerList:null
+        bannerList:[]
       }
     },
     methods:{

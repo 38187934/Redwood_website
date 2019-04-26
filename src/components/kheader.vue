@@ -72,7 +72,7 @@
 
 <script>
   export default {
-    name: "header",
+    name: "kheader",
     data() {
       return {
         isActive: false

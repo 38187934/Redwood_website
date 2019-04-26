@@ -51,7 +51,7 @@
 <script>
   import CONSTANT from '../assets/constant'
   export default {
-    name: "footer",
+    name: "kfooter",
     data(){
       return{
         favoriteLinkList:null

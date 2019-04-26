@@ -39,7 +39,7 @@
           <div class="columns">
 
             <div class="column is-12">
-              <div class="menuTab" v-for="item in typeList" :class="item.id===divInd?'active':''"
+              <div class="menuTab" v-for="item in typeList" :class="item.id!==null?item.id===divInd?'active':'':''"
                    @click="changeTab(item.id,item.name)">
                 {{item.name}}
               </div>
@@ -76,7 +76,7 @@
 
             <div class="columns is-multiline is-desktop is-mobile">
 
-              <div class="column k-list is-12" v-for="item in industryPage.records" @click="getDetail(item)">
+              <div class="column k-list is-12" v-for="item in records" @click="getDetail(item)">
                 <div class="columns">
                   <div class="column has-text-left">
                     <p>{{item.summary}}</p>
@@ -152,8 +152,8 @@
 </template>
 
 <script>
-  import Header from "../components/header";
-  import Footer from "../components/footer";
+  import Header from "../components/kheader";
+  import Footer from "../components/kfooter";
 
   import CONSTANT from '../assets/constant'
 
@@ -163,44 +163,7 @@
   export default {
     name: "industryknowledge",
     components: {Footer, Header, Pagination},
-    mounted() {
 
-
-      //页数
-      let current = this.$route.query.page;
-
-      if (current === undefined) {
-        current = 1;
-      }
-
-      this.current = current;
-
-
-      this.getIndustryknowledgeTypes();
-
-      //行业知识ID
-      if(this.$route.query.categoryid!==undefined)
-      {
-        let categoryId = parseInt(this.$route.query.categoryid);
-        this.divInd = categoryId;
-        this.getIndustryknowledgeList(categoryId);
-      }
-      else
-      {
-        this.divInd=this.typeList[0].id;
-        this.getIndustryknowledgeList(this.divInd);
-      }
-
-
-      this.keyword = this.$route.query.keyword;
-
-
-
-
-
-
-
-    },
     data() {
       return {
         //行业知识类型列表
@@ -213,6 +176,7 @@
         industryPage: {
           records: []
         },
+        records:[],
         rightInd: 0,
         //行业知识详情
         knowledgeDetail: {},
@@ -221,6 +185,39 @@
         //当前页数
         current: null
       }
+    },
+    mounted() {
+
+      this.getIndustryknowledgeTypes();
+      //页数
+      let current = this.$route.query.page;
+
+      if (current === undefined) {
+        current = 1;
+      }
+
+      this.current = current;
+
+
+      //行业知识ID
+      if(this.$route.query.categoryid!==undefined)
+      {
+        console.info(1)
+        let categoryId = parseInt(this.$route.query.categoryid);
+        this.divInd = categoryId;
+        this.getIndustryknowledgeList(categoryId);
+      }
+      else
+      {
+        this.getIndustryknowledgeList(this.divInd);
+      }
+
+      this.keyword = this.$route.query.keyword;
+
+
+    },
+    created(){
+      this.getIndustryknowledgeTypes();
     },
     /**
      *  监听路由page属性变化
@@ -244,7 +241,7 @@
         this.axios.get(CONSTANT.baseURL + "/pc/category?id=2")
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
+              //CONSTANT.failedAlert('提示', json.data.msg);
               return false;
             } else {
               this.typeList = json.data.list;
@@ -280,10 +277,12 @@
         this.axios.get(CONSTANT.baseURL + basePath)
           .then((json) => {
             if (json.data.code !== CONSTANT.statusCode.SUCCESS) {
-              CONSTANT.failedAlert('提示', json.data.msg);
+               //CONSTANT.failedAlert('提示', json.data.msg);
+              console.info(json.data.msg);
               return false;
             } else {
               this.industryPage = json.data.page;
+              this.records=json.data.page.records;
             }
           })
       },
