@@ -135,6 +135,11 @@
             </div>
             <div class="column is-8 modal_detail">
               <p class="descText">{{productDetail.goodsName}}</p>
+              <div class="columns">
+                <div class="column is-full">
+                  <qriously :value="'https://www.hnzhenke.com/zhenke/order?id='+productDetail.goodsId" :size="150" :background-alpha="1"></qriously>
+                </div>
+              </div>
             </div>
           </div>
 

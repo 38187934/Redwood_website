@@ -19,6 +19,10 @@ import axios from 'axios'
 //引入vue-axios
 import VueAxios from 'vue-axios'
 
+//引入vue-qriously 二维码
+import VueQriously from 'vue-qriously';
+Vue.use(VueQriously);
+
 Vue.use(VueAxios,axios);
 
 Vue.use(BaiduMap,{
