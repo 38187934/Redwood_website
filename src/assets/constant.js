@@ -6,7 +6,7 @@ import swal from 'sweetalert'
 
 let CONSTANT = {
   //API服务器地址
-  baseURL:"http://kyapi.prodapi.cn",
+  baseURL:"https://www.hnzhenke.com/devfrontapi",
   statusCode:{
     //操作成功
     SUCCESS:0

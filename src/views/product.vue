@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -72,17 +72,25 @@
             <hr>
 
 
-            <div class="columns is-multiline">
-              <div class="column is-4" v-for="item in productPage.records" @click="getDetail(item)" style="cursor: pointer">
+            <div class="columns is-multiline" >
+              <div class="column is-4" v-for="item in productPage.records" @click="getDetail(item)" style="cursor: pointer;height:20rem;margin-bottom:5rem;">
 
                 <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img :src="item.images!=null?JSON.parse(item.images)[0]:''" :alt="item.goodsName">
+                  <div class="card-image" style="padding-top:2.5rem">
+                    <figure class="image is-4by3 has-text-centered">
+                      <img style="width:220px;height:220px;margin:0 auto;" :src="item.images!=null?JSON.parse(item.images)[0]:''" :alt="item.goodsName">
                     </figure>
                   </div>
                   <div class="card-content">
-                    <h2 class="title">{{item.goodsName}}</h2>
+                    <div class="columns" style="height:5rem;">
+                      <div class="column is-6-desktop is-6-mobile has-text-left">
+                        <span class="title">{{item.goodsName.slice(0,17)+"..."}}</span>
+                      </div>
+                      <div class="column is-6-desktop is-6-mobile has-text-right">
+                          <span class="title">{{item.minPrice!==null?item.minPrice:0}}~{{item.maxPrice!==null?item.maxPrice:0}}元</span>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
 
@@ -91,7 +99,7 @@
             </div>
 
             <!--分页-->
-            <div class="columns ">
+            <div class="columns" v-show="!isLoading" style="margin-top:7rem;">
               <div class="column is-full">
                 <pagination
                   :url-prefix="'/industryknowledge'"
@@ -130,20 +138,44 @@
           </div>
 
           <div class="columns is-multiline">
-            <div class="column is-4 has-text-centered">
+            <div class="column is-6 has-text-centered">
               <img style="border:2px solid #0088c7;" :src="productDetail.images!=null?JSON.parse(productDetail.images)[0]:''" alt="">
             </div>
-            <div class="column is-8 modal_detail">
+            <div class="column is-6 modal_detail">
               <p class="descText">{{productDetail.goodsName}}</p>
               <div class="columns">
                 <div class="column is-full">
-                  <qriously :value="'https://www.hnzhenke.com/zhenke/order?id='+productDetail.goodsId" :size="150" :background-alpha="1"></qriously>
+                  <vue-qr :dotScale="1" :text="'https://www.hnzhenke.com/zhenke/order?id='+productDetail.goodsId" :size="160" :margin="0"></vue-qr>
+
+<!--                  <qriously :value="'https://www.hnzhenke.com/zhenke/order?id='+productDetail.goodsId" :size="160" :background-alpha="1"></qriously>-->
+                  <h6 class="is-text">微信扫描二维码了解详情</h6>
                 </div>
               </div>
             </div>
           </div>
 
         </section>
+      </div>
+    </div>
+
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
       </div>
     </div>
 
@@ -158,11 +190,16 @@
   //引入vue-bulma-pagination分页
   import Pagination from 'vue-bulma-pagination/src/Pagination'
 
+  import VueQr from 'vue-qr'
+
   export default {
     name: "product",
-    components: {Footer, Header,Pagination},
+    components: {Footer, Header,Pagination,VueQr},
     data() {
+
+
       return {
+        isLoading:true,
         showModal: false,
         breadName:null,
         //产品类型列表
@@ -267,7 +304,7 @@
        */
       getProductPage(categoryId)
       {
-        let basePath = "/pc/goods/search?categoryId="+categoryId+"&current="+this.current;
+        let basePath = "/pc/goods/search?categoryId="+categoryId+"&current="+this.current+"&size=9";
 
         //模糊查询判断
         if (this.keyword !== null && this.keyword !== undefined && this.keyword !== "") {
@@ -283,6 +320,8 @@
             }
             else
             {
+              //加载完毕
+              this.isLoading=false;
               this.productPage=json.data.page;
               /*
 
@@ -354,9 +393,17 @@
 
 <style scoped>
 
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
   @media screen and (min-width: 769px) {
     .modal-card {
-      width: 800px;
+      width: 500px;
     }
   }
 
@@ -414,7 +461,7 @@
     产品列表产品名称文字样式
   */
   .card-content .title {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: normal;
   }
 
@@ -425,6 +472,12 @@
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
     color: #0088c7;
+  }
+
+  .input{
+
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif,Tahoma,Arial,"\5b8b\4f53",sans-serif;
+
   }
 
 </style>

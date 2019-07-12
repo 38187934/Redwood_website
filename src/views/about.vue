@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -19,7 +19,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页>关于科义>{{breadName}}
+          您现在的位置： 首页>关于真科>{{breadName}}
         </div>
       </div>
 
@@ -31,7 +31,7 @@
         <!--左侧DIV-->
         <div class="column is-3-desktop is-full-mobile menuCol">
           <div class="aboutTab">
-            <p>关于科义</p>
+            <p>关于真科</p>
             <p style="font-size:0.9rem">ABOUT US</p>
           </div>
 
@@ -62,32 +62,12 @@
           <div class="infoPanel" v-show="divInd===0">
             <h2 class="title">企业介绍</h2>
             <hr>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
-              dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra
-              vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
+            <div class="columns">
+              <div class="column is-full">
+                <div v-html="aboutData[0].content"></div>
+              </div>
+            </div>
 
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
-              dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra
-              vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
-              dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra
-              vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
-              dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra
-              vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida
-              dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque
-              penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra
-              vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-            </p>
           </div>
 
           <!--企业文化-->
@@ -96,7 +76,7 @@
             <hr>
             <div class="columns">
               <div class="column is-full">
-                <p>此处为企业文化</p>
+                <div v-html="aboutData[1].content"></div>
               </div>
             </div>
 
@@ -109,16 +89,16 @@
             <hr>
 
             <div class="columns is-multiline">
-              <div class="column is-half" v-for="n in 4">
+              <div class="column is-half" v-for="(item,index) in aboutData" :key="index" v-if="index>2">
 
                 <div class="card">
                   <div class="card-image">
                     <figure class="image is-4by3">
-                      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+                      <img :src="item.url">
                     </figure>
                   </div>
                   <div class="card-content">
-                    <h2 class="subtitle">企业荣誉</h2>
+                    <h2 class="subtitle">{{!item.title?'':item.title}}</h2>
                   </div>
                 </div>
 
@@ -139,12 +119,36 @@
     </div>
 
 
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
+    </div>
+
+
   </div>
 </template>
 
 <script>
   import Header from "../components/kheader";
   import Footer from "../components/kfooter";
+
+  import CONSTANT from "../assets/constant";
 
   export default {
     name: "about",
@@ -153,8 +157,22 @@
       return {
         //当前板块
         divInd: 0,
-        breadName:'企业介绍'
+        breadName:'企业介绍',
+        aboutData:[{content:""},{content:""},{content:""}]
       }
+    },
+    mounted(){
+      this.axios.get(CONSTANT.baseURL+"/pc/about")
+        .then((json)=>{
+          if(json.data.code===CONSTANT.statusCode.SUCCESS)
+          {
+            this.aboutData=json.data.list
+          }
+          else
+          {
+            console.info(json.data.msg);
+          }
+        })
     },
     methods:{
       /**
@@ -169,6 +187,14 @@
 </script>
 
 <style scoped>
+
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 
   .aboutTab {
     background-color: rgba(0, 122, 199, 1);

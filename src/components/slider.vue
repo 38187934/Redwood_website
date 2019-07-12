@@ -1,7 +1,7 @@
 <template>
   <swiper v-if="bannerList.length>1" :options="swiperOption" ref="mySwiper" class="swiper-wrap">
     <swiper-slide v-for="(item,index) in bannerList" :key="index">
-      <img :src="item.imgUrl" :alt="item.advertisementName"/>
+      <img style="width:100%" :src="item.imgUrl" :alt="item.advertisementName"/>
     </swiper-slide>
     <!-- 常见的小圆点 -->
     <p class="swiper-pagination" :key="index" slot="pagination" v-for="(item,index) in bannerList"></p>
@@ -20,7 +20,7 @@
       return {
         //轮播组件设置
         swiperOption: {
-
+          autoHeight:true,
           pagination: {
             el: ".swiper-pagination"
           },
@@ -30,7 +30,7 @@
           initialSlide: 1,
           //自动切换时间
           autoplay: {
-            delay: 3000,
+            delay: 9000,
             disableOnInteraction: false
           },
           spaceBetween: 30,

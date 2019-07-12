@@ -1,6 +1,6 @@
 <!--行业知识-->
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -62,7 +62,7 @@
 
                 <div class="columns has-text-right is-desktop is-mobile">
                   <div class="column is-6-desktop is-9-mobile is-offset-4-desktop">
-                    <input class="input is-rounded" type="text" placeholder="请输入产品名称" v-model="keyword">
+                    <input class="input is-rounded" type="text" placeholder="请输入行业知识名称" v-model="keyword">
                   </div>
                   <div class="column is-2-desktop is-3-mobile">
                     <a class="button is-info is-rounded" @click="getKnowledgeListByKeyword()">搜索</a>
@@ -79,7 +79,7 @@
               <div class="column k-list is-12" v-for="item in records" @click="getDetail(item)">
                 <div class="columns">
                   <div class="column has-text-left">
-                    <p>{{item.summary}}</p>
+                    <p>{{item.knowledgeTitle}}</p>
                   </div>
                   <div class="column has-text-right">{{formatDate(item.updateTime)}}</div>
                 </div>
@@ -88,7 +88,7 @@
             </div>
 
             <!--分页-->
-            <div class="columns ">
+            <div class="columns" v-show="!isLoading">
               <div class="column is-full">
                 <pagination
                   :url-prefix="'/industryknowledge'"
@@ -109,13 +109,13 @@
           <div class="infoPanel" v-show="rightInd===1">
             <div class="columns is-multiline">
               <div class="column is-full">
-                <h2 class="title">知识详情</h2>
+<!--                <h2 class="title">知识详情</h2>-->
                 <div class="knowledgeTitle">
                   <div class="columns is-multiline is-desktop is-mobile">
-                    <div class="column is-half-desktop is-full-mobile has-text-left">
-                      <h3 class="subtitle">{{knowledgeDetail.summary}}</h3>
+                    <div class="column is-full has-text-centered">
+                      <h3 class="title">{{knowledgeDetail.knowledgeTitle}}</h3>
                     </div>
-                    <div class="column is-half-desktop is-full-mobile has-text-right">
+                    <div class="column is-full has-text-centered">
                       <h3 class="subtitle">{{formatDate(knowledgeDetail.updateTime)}}</h3>
                     </div>
                   </div>
@@ -146,6 +146,27 @@
       <Footer></Footer>
     </div>
 
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
 
@@ -166,6 +187,8 @@
 
     data() {
       return {
+        //加载
+        isLoading:true,
         //行业知识类型列表
         typeList: null,
         //面包屑名称
@@ -281,6 +304,7 @@
               console.info(json.data.msg);
               return false;
             } else {
+              this.isLoading=false;
               this.industryPage = json.data.page;
               this.records=json.data.page.records;
             }
@@ -337,6 +361,14 @@
 </script>
 
 <style scoped>
+
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 
 
   .aboutTab {
@@ -402,6 +434,13 @@
     .knowledgeTitle {
       margin-top: 2rem;
     }
+  }
+
+
+  .input{
+
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif,Tahoma,Arial,"\5b8b\4f53",sans-serif;
+
   }
 
 

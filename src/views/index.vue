@@ -2,7 +2,7 @@
   首页Vue
 -->
 <template>
-  <div>
+  <div id="page">
 
     <div class="container">
       <div class="columns is-desktop">
@@ -25,9 +25,9 @@
         <div class="column is-7 is-12-mobile">
           <h1 class="title">{{indexData[0].title!==null?indexData[0].title:''}}</h1>
           <div>
-            <p class="content">
-              {{indexData[0].content!==null?indexData[0].content:''}}
-            </p>
+            <div class="content" v-html="indexData[0].content!==null?indexData[0].content:''">
+
+            </div>
           </div>
         </div>
 
@@ -87,9 +87,9 @@
               <!--右侧上方div-->
               <div class="column is-full">
                 <h1 class="title">{{indexData[2].title!=null?indexData[2].title:''}}</h1>
-                <p class="content">
-                  {{indexData[2].content!=null?indexData[2].content:''}}
-                </p>
+                <div class="content" v-html="indexData[2].content!=null?indexData[2].content:''">
+
+                </div>
               </div>
             </div>
             <!--右侧下方div-->
@@ -117,6 +117,28 @@
 
     <div>
       <KFooter></KFooter>
+    </div>
+
+
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
     </div>
 
 
@@ -188,6 +210,16 @@
 </script>
 
 <style scoped>
+
+
+
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 
   .title {
     font-size: 2rem;

@@ -5,7 +5,7 @@
         <div class="container">
 
           <div class="columns is-multiline is-desktop is-mobile">
-            <div class="column is-1-desktop is-4-mobile" v-for="item in favoriteLinkList">
+            <div class="column is-1-desktop is-4-mobile has-text-centered" v-for="item in favoriteLinkList">
               <a class="button is-white" target="_blank" :href="item.url">{{item.name}}</a>
             </div>
           </div>
@@ -21,10 +21,10 @@
                 </div>
                 <div class="column is-9-desktop is-9-mobile" style="text-align: left;">
                   <div class="htitle">
-                    湖南科义生物
+                    真科生物
                   </div>
                   <div class="hsubtitle">
-                    HUNAN KE YI SHENGWU
+                    ZHEN KE SHENGWU
                   </div>
                 </div>
               </div>
@@ -32,9 +32,9 @@
 
             <div class="column is-7-desktop is-12-mobile">
 
-              <p>Copyright &copy;2019 湖南宁乡科义生物有限公司 版权所有 备案号:湘ICP备xxxxxxxx号</p>
-              <p>公司地址：湖南省宁乡某某区某某街道多少号</p>
-              <p>全国服务热线：xxxxxxxxx</p>
+              <p>Copyright &copy;2019 湖南真科生物技术有限公司 版权所有 备案号:湘ICP备19001809号-1</p>
+              <p>公司地址：湖南省长沙市宁乡经济技术开发区谐园北路玉屏山国际产业城D组团D5栋205</p>
+              <p>全国服务热线：18711704010</p>
 
             </div>
 

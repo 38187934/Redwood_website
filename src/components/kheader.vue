@@ -11,10 +11,10 @@
             </div>
             <div class="column is-9-desktop is-9-mobile" style="text-align: left;">
               <div class="htitle">
-                湖南科义生物
+                真科生物
               </div>
               <div class="hsubtitle">
-                HUNAN KE YI SHENGWU
+                ZHEN KE SHENGWU
               </div>
             </div>
           </div>
@@ -39,7 +39,7 @@
           </a>
 
           <a class="navbar-item" :class="nIndex==1?'active':''" @click="jumpPage('/about')">
-            关于科义
+            关于真科
           </a>
 
           <a class="navbar-item" :class="nIndex==2?'active':''" @click="jumpPage('/product')">
@@ -118,6 +118,7 @@
     /*英文小标题*/
     .hsubtitle
     {
+      font-size:0.9rem;
       font-weight:600;
     }
 
@@ -159,6 +160,7 @@
     /*手机端小标题样式*/
     .hsubtitle
     {
+      font-size:0.5rem;
       font-weight:500;
     }
   }

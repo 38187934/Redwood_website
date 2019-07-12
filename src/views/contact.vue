@@ -1,6 +1,6 @@
 <!--新闻动态-->
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -53,7 +53,13 @@
               <!--百度地图DIV-->
               <div class="column is-full">
                 <!--百度地图组件-->
-                <baidu-map :center="center" :zoom="zoom" class="baiduMap" @ready="baiduMapHandler"></baidu-map>
+<!--                <baidu-map :center="center" :zoom="zoom" class="baiduMap" @ready="baiduMapHandler"></baidu-map>-->
+
+                <baidu-map class="baiduMap" :center="{lng: 112.613173, lat: 28.30437}" :zoom="18">
+                  <bm-marker :position="{lng: 112.613173, lat: 28.30437}" >
+                    <bm-label content="湖南真科生物技术有限公司" :labelStyle="{color: 'black', fontSize : '10px'}" :offset="{width: -35, height: 30}"/>
+                  </bm-marker>
+                </baidu-map>
               </div>
 
               <!--联系信息-->
@@ -61,25 +67,16 @@
                 <h2 class="subtitle">集团信息</h2>
                 <div class="columns is-multiline">
                   <div class="column is-full">
-                    公司名称：湖南省宁乡县科义生物技术有限公司
+                    公司名称：湖南真科生物技术有限公司
                   </div>
-                  <div class="column is-half-desktop">
-                    生产地址：湖南省宁乡县XXX路168号
+                  <div class="column is-full">
+                    全国服务热线：18711704010
                   </div>
-                  <div class="column is-half-desktop">
-                    联系电话：0739-2698534
+                  <div class="column is-full">
+                    公司网址：www.hnzhenke.com
                   </div>
-                  <div class="column is-half-desktop">
-                    公司地址：湖南省宁乡县XXX路168号
-                  </div>
-                  <div class="column is-half-desktop">
-                    联系电话：13256998563
-                  </div>
-                  <div class="column is-half-desktop">
-                    全国服务热线：000-3698552
-                  </div>
-                  <div class="column is-half-desktop">
-                    公司网址：WWW.BIOKEYI.COM
+                  <div class="column is-full">
+                    公司地址：湖南省长沙市宁乡经济技术开发区谐园北路玉屏山国际产业城D组团D5栋205
                   </div>
                 </div>
               </div>
@@ -100,6 +97,28 @@
     <!--尾部-->
     <div>
       <Footer></Footer>
+    </div>
+
+
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
     </div>
 
   </div>
@@ -127,9 +146,9 @@
       baiduMapHandler({BMap, map}) {
         console.log(BMap, map);
         //经度
-        this.center.lng = 112.562432;
+        this.center.lng = 112.613176;
         //纬度
-        this.center.lat = 28.284614;
+        this.center.lat = 28.304368;
         //放大倍数
         this.zoom = 15;
       }
@@ -139,6 +158,18 @@
 
 <style scoped>
 
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+
+  .BMap_Marker div{
+    width:40px;
+    height:50px;
+  }
 
   .aboutTab {
     background-color: rgba(0, 122, 199, 1);

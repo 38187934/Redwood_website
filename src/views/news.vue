@@ -1,6 +1,6 @@
 <!--新闻动态-->
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -76,7 +76,7 @@
               <div class="column k-list is-12" v-for="item in newsPage.records" @click="getDetail(item)">
                 <div class="columns">
                   <div class="column has-text-left">
-                    <p>{{item.summary}}</p>
+                    <p>{{item.newsTitle}}</p>
                   </div>
                   <div class="column has-text-right">{{formatDate(item.updateTime)}}</div>
                 </div>
@@ -85,7 +85,7 @@
             </div>
 
             <!--分页-->
-            <div class="columns ">
+            <div class="columns" v-show="!isLoading">
               <div class="column is-full">
                 <pagination
                   :url-prefix="'/news'"
@@ -105,15 +105,15 @@
           <!--新闻详情-->
           <div class="infoPanel" v-show="rightInd===1">
             <div class="columns is-multiline">
-              <div class="column is-full">
-                <h2 class="title">新闻详情</h2>
-              </div>
+<!--              <div class="column is-full">-->
+<!--                <h2 class="title">新闻详情</h2>-->
+<!--              </div>-->
               <div class="column">
-                <div class="columns">
-                  <div class="column is-half-desktop is-half-mobile has-text-left">
-                    <h2 class="subtitle">{{newsDetail.summary}}</h2>
+                <div class="columns is-multiline">
+                  <div class="column is-full has-text-centered">
+                    <h2 class="title">{{newsDetail.newsTitle}}</h2>
                   </div>
-                  <div class="column is-half-desktop is-half-mobile has-text-right">
+                  <div class="column is-full has-text-centered">
                     <h2 class="subtitle">{{formatDate(newsDetail.updateTime)}}</h2>
                   </div>
                 </div>
@@ -143,6 +143,27 @@
       <Footer></Footer>
     </div>
 
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
 
@@ -161,6 +182,8 @@
     components: {Pagination, Footer, Header},
     data() {
       return {
+        //加载
+        isLoading:true,
         //新闻类型列表
         typeList: null,
         //新闻列表分页
@@ -285,6 +308,7 @@
               return false;
             } else {
               this.newsPage = json.data.page;
+              this.isLoading=false;
             }
           })
       },
@@ -349,6 +373,13 @@
 
 <style scoped>
 
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 
   .aboutTab {
     background-color: rgba(0, 122, 199, 1);
@@ -404,6 +435,8 @@
     border-bottom: 2px solid #f5f5f5;
     cursor: pointer;
   }
+
+
 
 
 </style>

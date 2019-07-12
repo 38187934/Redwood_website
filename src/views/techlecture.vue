@@ -1,6 +1,6 @@
 <!--技术讲座-->
 <template>
-  <div>
+  <div id="page">
     <!--头部-->
     <div class="container">
       <div class="columns">
@@ -59,7 +59,7 @@
 
                 <div class="columns has-text-right is-desktop is-mobile">
                   <div class="column is-6-desktop is-9-mobile is-offset-4-desktop">
-                    <input class="input is-rounded" type="text" placeholder="请输入产品名称" v-model="keyword">
+                    <input class="input is-rounded" type="text" placeholder="请输入技术讲座信息" v-model="keyword">
                   </div>
                   <div class="column is-2-desktop is-3-mobile">
                     <a class="button is-info is-rounded" @click="getVideoListByKeyword()">搜索</a>
@@ -138,7 +138,10 @@
                 <div class="columns">
                   <div class="column is-full">
 <!--                    <iframe :src="videoDetail.videoUrl" frameborder="0" style="width: 100%;height:30rem;"></iframe>-->
-                    <video :src="videoDetail.videoUrl" style="width: 100%;height:30rem;" controls="controls">您的浏览器暂不支持VIDEO控件</video>
+<!--                    <video :src="videoDetail.videoUrl" style="width: 100%;height:30rem;" controls="controls">您的浏览器暂不支持VIDEO控件</video>-->
+                    <!--liming edit by 2019-05-23-->
+                    <!--<div style="height:500px" v-html="videoDetail.videoUrl.replace('http:','')"></div>-->
+                    <div style="height:500px" v-html="getIframe(videoDetail.videoUrl)"></div>
                   </div>
                 </div>
               </div>
@@ -154,6 +157,28 @@
     <!--尾部-->
     <div>
       <Footer></Footer>
+    </div>
+
+
+    <div id="rightBox">
+      <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
+      <div class="columns is-multiline" style="margin-top:0.5rem;">
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <p>APP二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <p>小程序二维码</p>
+        </div>
+
+        <div class="column is-full has-text-centered">
+          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <p>公众号二维码</p>
+        </div>
+
+      </div>
     </div>
 
 
@@ -176,6 +201,8 @@
     components: {Footer, Header,Pagination},
     data() {
       return {
+        //加载
+        isLoading:true,
         //类型列表
         typeList: [],
         //当前选中板块名称
@@ -247,6 +274,27 @@
 
     },
     methods: {
+         /**
+          * liming add by 2019-05-23
+          * 自定义iframe
+          */
+        getIframe(iframHtml){
+          if(iframHtml.length>0)
+          {
+            //替换链接中的http字符串
+            iframHtml=iframHtml.replace('http:','');
+            //获取height的值
+            var heightRegex=/height=(\d+)/;
+            var matchResult=iframHtml.match(heightRegex);
+            var height=500;
+            if(matchResult!=null && matchResult!="" && matchResult.length>1){
+              height=matchResult[1];
+            }
+            //把height加入到style中
+            iframHtml=iframHtml.replace(/height=\d+/,"style='height:"+height+"px;width:800px'");
+          }
+            return iframHtml;
+        },
       /**
        * 获取技术讲座类型列表
        */
@@ -293,6 +341,7 @@
               console.info(json.data.msg);
               return false;
             } else {
+              this.isLoading=false;
               this.videoPage = json.data.page;
               this.records=json.data.page.records;
             }
@@ -352,6 +401,13 @@
 
 <style scoped>
 
+  @media all and (min-width: 320px) and (max-width: 450px){
+    #page
+    {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
 
   .aboutTab {
     background-color: rgba(0, 122, 199, 1);
@@ -422,6 +478,12 @@
     {
       margin-bottom: 6rem;
     }
+  }
+
+  .input{
+
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif,Tahoma,Arial,"\5b8b\4f53",sans-serif;
+
   }
 
 

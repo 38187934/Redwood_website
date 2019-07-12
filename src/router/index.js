@@ -27,7 +27,7 @@ export default new Router({
       name: 'Index',
       component:Index,
       meta:{
-        title:"湖南科义生物 - 首页"
+        title:"真科生物 - 首页"
       }
     },
     {
@@ -35,7 +35,7 @@ export default new Router({
       name: 'About',
       component:About,
       meta:{
-        title:"湖南科义生物 - 关于科义"
+        title:"真科生物 - 关于真科"
       }
     },
     {
@@ -43,7 +43,7 @@ export default new Router({
       name: 'Product',
       component:Product,
       meta:{
-        title:"湖南科义生物 - 产品中心"
+        title:"真科生物 - 产品中心"
       }
     },
     {
@@ -51,7 +51,7 @@ export default new Router({
       name: 'Techlecture',
       component:Techlecture,
       meta:{
-        title:"湖南科义生物 - 技术讲座"
+        title:"真科生物 - 技术讲座"
       }
     },
     {
@@ -59,7 +59,7 @@ export default new Router({
       name: 'IndustryKnowledge',
       component:IndustryKnowledge,
       meta:{
-        title:"湖南科义生物 - 行业知识"
+        title:"真科生物 - 行业知识"
       }
     },
     {
@@ -67,7 +67,7 @@ export default new Router({
       name: 'News',
       component:News,
       meta:{
-        title:"湖南科义生物 - 新闻动态"
+        title:"真科生物 - 新闻动态"
       }
     }
     ,
@@ -76,7 +76,7 @@ export default new Router({
       name: 'Contact',
       component:Contact,
       meta:{
-        title:"湖南科义生物 - 联系我们"
+        title:"真科生物 - 联系我们"
       }
     }
   ]
