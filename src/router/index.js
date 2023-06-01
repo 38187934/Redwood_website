@@ -27,7 +27,7 @@ export default new Router({
       name: 'Index',
       component:Index,
       meta:{
-        title:"真科生物 - 首页"
+        title:"超顺红木 - 首页"
       }
     },
     {
@@ -35,7 +35,7 @@ export default new Router({
       name: 'About',
       component:About,
       meta:{
-        title:"真科生物 - 关于真科"
+        title:"超顺红木 - 关于红木知识"
       }
     },
     {
@@ -43,7 +43,7 @@ export default new Router({
       name: 'Product',
       component:Product,
       meta:{
-        title:"真科生物 - 产品中心"
+        title:"超顺红木 - 产品中心"
       }
     },
     {
@@ -51,7 +51,7 @@ export default new Router({
       name: 'Techlecture',
       component:Techlecture,
       meta:{
-        title:"真科生物 - 技术讲座"
+        title:"超顺红木 - 技术讲座"
       }
     },
     {
@@ -59,7 +59,7 @@ export default new Router({
       name: 'IndustryKnowledge',
       component:IndustryKnowledge,
       meta:{
-        title:"真科生物 - 行业知识"
+        title:"超顺红木 - 行业知识"
       }
     },
     {
@@ -67,7 +67,7 @@ export default new Router({
       name: 'News',
       component:News,
       meta:{
-        title:"真科生物 - 新闻动态"
+        title:"超顺红木 - 新闻动态"
       }
     }
     ,
@@ -76,7 +76,7 @@ export default new Router({
       name: 'Contact',
       component:Contact,
       meta:{
-        title:"真科生物 - 联系我们"
+        title:"超顺红木 - 联系我们"
       }
     }
   ]

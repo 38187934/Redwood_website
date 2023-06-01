@@ -11,10 +11,10 @@
             </div>
             <div class="column is-9-desktop is-9-mobile" style="text-align: left;">
               <div class="htitle">
-                真科生物
+                超 顺 红 木
               </div>
               <div class="hsubtitle">
-                ZHEN KE SHENGWU
+                Super Shun Mahogany
               </div>
             </div>
           </div>
@@ -39,7 +39,7 @@
           </a>
 
           <a class="navbar-item" :class="nIndex==1?'active':''" @click="jumpPage('/about')">
-            关于真科
+            关于红木
           </a>
 
           <a class="navbar-item" :class="nIndex==2?'active':''" @click="jumpPage('/product')">

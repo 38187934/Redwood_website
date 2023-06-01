@@ -19,7 +19,7 @@
 
       <div class="column">
         <div class="container">
-          您现在的位置： 首页>关于真科>{{breadName}}
+          您现在的位置： 首页>关于红木知识>{{breadName}}
         </div>
       </div>
 
@@ -31,7 +31,7 @@
         <!--左侧DIV-->
         <div class="column is-3-desktop is-full-mobile menuCol">
           <div class="aboutTab">
-            <p>关于真科</p>
+            <p>关于红木知识</p>
             <p style="font-size:0.9rem">ABOUT US</p>
           </div>
 
@@ -123,7 +123,7 @@
       <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
       <div class="columns is-multiline" style="margin-top:0.5rem;">
         <div class="column is-full has-text-centered">
-          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <img src="src\assets\logo.png" style="width:6.5rem" alt="">
           <p>APP二维码</p>
         </div>
 

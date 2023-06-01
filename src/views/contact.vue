@@ -55,9 +55,9 @@
                 <!--百度地图组件-->
 <!--                <baidu-map :center="center" :zoom="zoom" class="baiduMap" @ready="baiduMapHandler"></baidu-map>-->
 
-                <baidu-map class="baiduMap" :center="{lng: 112.613173, lat: 28.30437}" :zoom="18">
-                  <bm-marker :position="{lng: 112.613173, lat: 28.30437}" >
-                    <bm-label content="湖南真科生物技术有限公司" :labelStyle="{color: 'black', fontSize : '10px'}" :offset="{width: -35, height: 30}"/>
+                <baidu-map class="baiduMap" :center="{lng: 110.243814, lat: 21.36113}" :zoom="18">
+                  <bm-marker :position="{lng: 110.243814, lat: 21.36113}" >
+                    <bm-label content="超顺红木家私厂" :labelStyle="{color: 'black', fontSize : '10px'}" :offset="{width: -35, height: 30}"/>
                   </bm-marker>
                 </baidu-map>
               </div>
@@ -67,16 +67,16 @@
                 <h2 class="subtitle">集团信息</h2>
                 <div class="columns is-multiline">
                   <div class="column is-full">
-                    公司名称：湖南真科生物技术有限公司
+                    公司名称：超顺红木家私厂
                   </div>
                   <div class="column is-full">
-                    全国服务热线：18711704010
+                    全国服务热线：xxxxxxxxxx
                   </div>
                   <div class="column is-full">
-                    公司网址：www.hnzhenke.com
+                    公司网址：xxxxxxxxxxxxxx
                   </div>
                   <div class="column is-full">
-                    公司地址：湖南省长沙市宁乡经济技术开发区谐园北路玉屏山国际产业城D组团D5栋205
+                    公司地址：广东省湛江市遂溪县遂城镇沙坭岭村超顺红木家私厂
                   </div>
                 </div>
               </div>
@@ -146,9 +146,9 @@
       baiduMapHandler({BMap, map}) {
         console.log(BMap, map);
         //经度
-        this.center.lng = 112.613176;
+        this.center.lng = 110.243814;
         //纬度
-        this.center.lat = 28.304368;
+        this.center.lat = 21.36113;
         //放大倍数
         this.zoom = 15;
       }

@@ -8,112 +8,45 @@
       <div class="columns is-desktop">
         <div class="column is-full">
           <!--导航栏-->
-          <KHeader :n-index="0"></KHeader>
+          <KHeader :n-index="0">
+            
+          </KHeader>
         </div>
 
       </div>
     </div>
 
-    <!--轮播-->
-    <div>
-      <Slider></Slider>
-    </div>
-
-    <!--科学研究-->
-    <div class="container science_research">
-      <div class="columns">
-        <div class="column is-7 is-12-mobile">
-          <h1 class="title">{{indexData[0].title!==null?indexData[0].title:''}}</h1>
-          <div>
-            <div class="content" v-html="indexData[0].content!==null?indexData[0].content:''">
-
+    
+            <!--轮播图-->
+    <div class="wrapper">
+        <div class="box">
+            <span class="left">&lt;</span>  <!--左右箭头-->
+            <span class="right">&gt;</span>
+            <ul class="img-list">
+                <li><img src="../assets/红木网站主界面.jpeg" alt=""></li>
+                <li><img src="../assets/红木网站门面.jpeg" alt=""></li>
+                                                                                           
+            </ul>
+            <div class="dot">
+                <ul class="dot-list">
+                    <li class="item active" ></li>
+                    <li class="item"></li>
+                    <li class="item"></li>
+                  
+                </ul>    
             </div>
-          </div>
-        </div>
-
-        <div class="column is-5 is-12-mobile">
-          <img :src="img1[0]" alt="">
-        </div>
-      </div>
-    </div>
-
-
-    <!--实验室-->
-    <div class="laboratory">
-      <div class="container">
-
-        <div class="columns is-desktop is-mobile has-text-centered">
-          <div class="column is-full">
-            <h1 class="title">{{indexData[1].title!=null?indexData[1].title:''}}</h1>
-          </div>
-        </div>
-
-        <div class="columns is-multiline">
-
-          <div class="column is-4" v-for="pic in img2">
-
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img :src="pic" alt="图片">
-                </figure>
-              </div>
-            </div>
-
-          </div>
-
-
-
-        </div>
-
-
-      </div>
-
+        </div>       
     </div>
 
 
-    <!--介绍信息-->
-    <div class="information">
-      <div class="container">
-        <div class="columns">
-          <!--左侧div-->
-          <div class="column is-6 has-text-centered">
-            <img style="width:80%" :src="img3[0]" alt="">
-          </div>
-          <!--右侧div-->
-          <div class="column is-6">
 
-            <div class="columns">
-              <!--右侧上方div-->
-              <div class="column is-full">
-                <h1 class="title">{{indexData[2].title!=null?indexData[2].title:''}}</h1>
-                <div class="content" v-html="indexData[2].content!=null?indexData[2].content:''">
 
-                </div>
-              </div>
-            </div>
-            <!--右侧下方div-->
-            <div class="columns is-multiline">
-              <div class="column is-6" v-show="ind!==0" v-for="(pic,ind) in img3" :key="ind">
+    
 
-                <div class="card">
-                  <div class="card-image">
-                    <figure class="image is-4by3">
-                      <img :src="pic" alt="图片">
-                    </figure>
-                  </div>
-                </div>
+    
 
-              </div>
 
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
-
+   
 
     <div>
       <KFooter></KFooter>
@@ -123,18 +56,19 @@
     <div id="rightBox">
       <h2 class="has-text-centered" style="font-size:1.2rem;">下载专区</h2>
       <div class="columns is-multiline" style="margin-top:0.5rem;">
+
         <div class="column is-full has-text-centered">
-          <img src="https://www.hnzhenke.com/upload/images/website/app.png" style="width:6.5rem" alt="">
+          <img src="../assets/公众号二维码.jpg" style="width:6.5rem" alt="">
           <p>APP二维码</p>
         </div>
 
         <div class="column is-full has-text-centered">
-          <img src="https://www.hnzhenke.com/upload/images/website/xcx.jpg" style="width:6.5rem" alt="">
+          <img src="../assets/公众号二维码.jpg" style="width:6.5rem" alt="">
           <p>小程序二维码</p>
         </div>
 
         <div class="column is-full has-text-centered">
-          <img src="https://www.hnzhenke.com/upload/images/website/gzh.jpg" style="width:6.5rem" alt="">
+          <img src="../assets/公众号二维码.jpg" style="width:6.5rem" alt="">
           <p>公众号二维码</p>
         </div>
 
@@ -212,7 +146,6 @@
 <style scoped>
 
 
-
   @media all and (min-width: 320px) and (max-width: 450px){
     #page
     {
@@ -220,7 +153,6 @@
       padding-right: 15px;
     }
   }
-
   .title {
     font-size: 2rem;
     font-weight: 600;

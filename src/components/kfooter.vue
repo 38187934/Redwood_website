@@ -21,7 +21,7 @@
                 </div>
                 <div class="column is-9-desktop is-9-mobile" style="text-align: left;">
                   <div class="htitle">
-                    真科生物
+                    超顺红木
                   </div>
                   <div class="hsubtitle">
                     ZHEN KE SHENGWU
@@ -32,9 +32,9 @@
 
             <div class="column is-7-desktop is-12-mobile">
 
-              <p>Copyright &copy;2019 湖南真科生物技术有限公司 版权所有 备案号:湘ICP备19001809号-1</p>
-              <p>公司地址：湖南省长沙市宁乡经济技术开发区谐园北路玉屏山国际产业城D组团D5栋205</p>
-              <p>全国服务热线：18711704010</p>
+              <p>公司名称：超顺红木家私厂</p>
+              <p>公司地址：广东省湛江市遂溪县遂城镇沙坭岭村超顺红木家私厂</p>
+              <p>全国服务热线：xxxxxxxxx</p>
 
             </div>
 
@@ -116,4 +116,5 @@
       font-weight:500;
     }
   }
+  
 </style>
